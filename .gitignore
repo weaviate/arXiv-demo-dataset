@@ -1,0 +1,6 @@
+# ignore the bigger dataset
+data/arxiv-metadata-oai.json
+
+.ipynb_checkpoints
+
+__pychache__/
