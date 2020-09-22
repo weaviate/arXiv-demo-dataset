@@ -171,7 +171,7 @@
                             "string"
                         ],
                         "description": "Report-no of the paper",
-                        "index": false,
+                        "index": true,
                         "name": "reportNumber",
                         "vectorizePropertyName": true
                     }
@@ -188,7 +188,7 @@
                         "description": "Name of the author",
                         "name": "name",
                         "vectorizePropertyName": true,
-                        "index": false
+                        "index": true
                     }, {
                         "dataType": [
                             "Paper"
@@ -196,7 +196,7 @@
                         "description": "Reference to the papers the author wrote",
                         "name": "wrotePapers",
                         "vectorizePropertyName": true,
-                        "index": false,
+                        "index": true,
                         "cardinality": "many"
                     }
                 ]
@@ -235,7 +235,7 @@
                         "description": "ID of the category of tag",
                         "name": "id",
                         "vectorizePropertyName": true,
-                        "index": false
+                        "index": true
                     }, {
                         "dataType": [
                             "text"
@@ -243,7 +243,7 @@
                         "description": "Category description",
                         "name": "description",
                         "vectorizePropertyName": true,
-                        "index": false
+                        "index": true
                     }, {
                         "dataType": [
                             "Archive"
@@ -251,20 +251,20 @@
                         "description": "Archive of the category",
                         "name": "inArchive",
                         "vectorizePropertyName": true,
-                        "index": false,
+                        "index": true,
                         "cardinality": "many"
                     }
                 ]
             }, {
                 "class": "Archive",
                 "vectorizeClassName": true,
-                "description": "Group and subgroups (archives) a category falls in",
+                "description": "Subgroups (archives) a category falls in",
                 "properties": [
                     {
                         "dataType": [
                             "string"
                         ],
-                        "description": "Name of the journal",
+                        "description": "Name of the archive",
                         "name": "name",
                         "vectorizePropertyName": true,
                         "index": true
@@ -275,7 +275,30 @@
                         "description": "ID of the archive",
                         "name": "id",
                         "vectorizePropertyName": true,
-                        "index": false
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "Group"
+                        ],
+                        "description": "Group the archive falls in",
+                        "name": "inGroup",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
+            }, {
+                "class": "Group",
+                "vectorizeClassName": true,
+                "description": "Group an archive falls in",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the journal",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
                     }
                 ]
             }
