@@ -8,6 +8,7 @@ import json
 import tqdm
 import re
 import time
+import uuid
 
 year_pattern = r'([1-2][0-9]{3})'
 
@@ -18,6 +19,32 @@ def get_client():
     return client
 
 client = get_client()
+
+def get_metadata():
+    with open('./data/arxiv-metadata-oai.json', 'r') as f:
+        for line in f:
+            yield line
+
+def test_metadata():
+    metadata = get_metadata()
+    for paper in metadata:
+        for k, v in json.loads(paper).items():
+            print(f'{k}: {v}')
+        break
+
+def generate_uuid(identifier):
+    """ Generate an uuid
+    :param namespace: allows to make identifiers unique if they come from different source systems.
+                        E.g. google maps, osm, ...
+    :param identifier: that is used to generate the uuid
+    :return: properly formed uuid in form of string
+    """
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, identifier))
+
+def extract_year(paper_id):
+    year = 2000 + int(paper_id[:2])
+        
+    return year
 
 # get ids of categories
 def get_ids_of_categories():
@@ -33,95 +60,110 @@ def get_ids_of_categories():
     except weaviate.UnexpectedStatusCodeException as usce:
         print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
-# {title, doi, year, journalReference, arXivId, submitter, abstract, comments, hasCategories, versionHistory, lastestVersionCreated, lastestVersion, pdfLink, link, licence, reportNumber, hasAuthors, inJournal}
-def get_metadata():
-    with open('./data/arxiv-metadata-oai.json', 'r') as f:
-        for line in f:
-            yield line
-
-# test
-def test_metadata():
-    metadata = get_metadata()
-    for paper in metadata:
-        for k, v in json.loads(paper).items():
-            print(f'{k}: {v}')
-        break
-
-def get_journal_name(a_string):
-    splitted = re.split('([0-9]+)', a_string)
-    return splitted[0]
-
-def get_journal_uuid(name):
-    # check if journal exists
-    where_filter = {
-      "path": ["name"],
-      "operator": "Equal",
-      "valueString": name
-    }
-
-    result = client.query.get.things("Journal", ["uuid"]).with_where(where_filter).with_limit(10000).do()
-    
-    try: 
-        journals = result['data']['Get']['Things']['Journal']
-        if len(journals) > 0:
-            return journals[0]["uuid"]
-        else: # journal does not exist yet
-            data_obj = {"name": name}
-            create_result = client.data_object.create(data_obj, "Journal")
-            time.sleep(1)
-            return create_result
-    except KeyError:
-        print("Got an key error: ", result)
-    except weaviate.UnexpectedStatusCodeException as usce:
-        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
 def format_author_name(author):
     regex = re.compile(r'[\n\r\t\'\\\"\`]')
-    return regex.sub('', author)
+    result = regex.sub('', author)
+    result = re.sub(r'\(.*\)', '', result)
+    result = re.sub(r'[\(\[\{].*?[\)\]\}]', "", result)
+    return result
 
-def get_author_uuid(name):
-    # check if journal exists
-    where_filter = {
-      "path": ["name"],
-      "operator": "Equal",
-      "valueString": name
-    }
-
-    result = client.query.get.things("Author", ["uuid"]).with_where(where_filter).with_limit(10000).do()
-    try: 
-        authors = result['data']['Get']['Things']['Author']
-        if len(authors) > 0:
-            return authors[0]["uuid"]
-        else: # journal does not exist yet
-            data_obj = {"name": name}
-            create_result = client.data_object.create(data_obj, "Author")
-            time.sleep(1)
-            return create_result
-    except KeyError:
-        print("Got an key error: ", result)
-    except weaviate.UnexpectedStatusCodeException as usce:
-        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
-
-def extract_year(paper_id):
-    year = 2000 + int(paper_id[:2])
-        
-    return year
-
-def add_papers(no_papers_to_import=100, start=0):
-    metadata = get_metadata()
-
+def add_and_return_authors(data, batch_size=512, max_papers=float('inf'), max_import_items=float('inf'), authors_dict={}):
     batch = weaviate.ThingsBatchRequest()
-    no_papers_in_batch  = 0
-    no_papers_imported = 0
+    
+    no_items_in_batch = 0
+    no_imported = 0
+    no_of_papers = 0
+    
+    for paper in data:
+        if no_imported >= max_import_items:
+            return
 
-    # for debugging
-    skipped = 0
+        paper = json.loads(paper)
+        if paper["authors"] is not None:
 
-    for paper in metadata:
-        if skipped < start:
-            skipped += 1
-            continue
-        print(no_papers_imported+start)
+            # remove everything between parentheses (twice for recursion)
+            name = format_author_name(paper["authors"])
+            authors = name.split(', ')
+
+            for author in authors:
+                if author not in authors_dict:
+                    # add author to batch
+                    author_uuid = generate_uuid(author)
+                    batch.add_thing({"name": author}, "Author", author_uuid)
+                    no_items_in_batch += 1
+                    authors_dict[author] = author_uuid
+
+                if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
+                    result = client.batch.create_things(batch)
+                    no_imported += no_items_in_batch
+                    print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
+
+                    batch = weaviate.ThingsBatchRequest()
+                    no_items_in_batch = 0
+
+        no_of_papers += 1
+        if no_of_papers >= max_papers:
+            result = client.batch.create_things(batch)
+            no_imported += no_items_in_batch
+            print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
+            return authors_dict
+
+    return authors_dict
+
+def format_journal_name(a_string):
+    splitted = re.split('([0-9]+)', a_string)
+    journal_name = re.sub('[\"\'\n]', '', splitted[0])
+    return journal_name
+
+def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_import_items=float('inf'), journals_dict={}):
+    batch = weaviate.ThingsBatchRequest()
+
+    no_items_in_batch = 0
+    no_imported = 0
+    no_of_papers = 0
+    
+    for paper in data:
+        if no_imported >= max_import_items:
+            return
+
+        paper = json.loads(paper)
+
+        if paper["journal-ref"] is not None:
+            journal_name = format_journal_name(paper["journal-ref"])
+            journal_uuid = generate_uuid(journal_name)
+
+            if journal_name not in journals_dict:
+                batch.add_thing({"name": journal_name}, "Journal", journal_uuid)
+                no_items_in_batch += 1
+                journals_dict[journal_name] = journal_uuid
+
+            if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
+                result = client.batch.create_things(batch)
+                no_imported += no_items_in_batch
+                print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
+
+                batch = weaviate.ThingsBatchRequest()
+                no_items_in_batch = 0
+
+            no_of_papers += 1
+            if no_of_papers >= max_papers:
+                result = client.batch.create_things(batch)
+                no_imported += no_items_in_batch
+                print('{} new journals imported in last batch, {} total journals imported.'.format(no_items_in_batch, no_imported))
+                return journals_dict
+
+    return journals_dict
+
+def add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_papers=1000, batch_size=512, max_import_items=float('inf')):
+    batch = weaviate.ThingsBatchRequest()
+
+    no_items_in_batch = 0
+    no_imported = 0
+    
+    for paper in data:
+        if no_imported >= max_import_items:
+            return
 
         paper = json.loads(paper)
         paper_object = {}
@@ -143,89 +185,80 @@ def add_papers(no_papers_to_import=100, start=0):
             year = extract_year(paper["id"])
             paper_object["year"] = year
 
-        paper_object["hasCategories"] = []
-        for category in paper["categories"][0].split(' '): # id of category
-            # create beacon
-            categories_with_uuids_dict = get_ids_of_categories()
-            beacon_url = "weaviate://localhost/things/" + categories_with_uuids_dict[category]
-            beacon = {"beacon": beacon_url}
-            paper_object["hasCategories"].append(beacon)
+        if paper["categories"][0] is not None:
+            categories_object = []
+            for category in paper["categories"][0].split(' '): # id of category
+                # create beacon
+                if category not in categories_dict:
+                    break
+                beacon_url = "weaviate://localhost/things/" + categories_dict[category]
+                beacon = {"beacon": beacon_url}
+                categories_object.append(beacon)
 
-        # journal
+            if len(categories_object) > 0:
+                paper_object["hasCategories"] = categories_object
+
         if paper["journal-ref"] is not None:
-            journal_name = get_journal_name(paper["journal-ref"])
-            journal_name = re.sub('[\"\'\n]', '', journal_name)
-            journal_uuid= get_journal_uuid(journal_name)
+            journal_name = format_journal_name(paper["journal-ref"])
+            # create beacon
+            if journal_name in journals_dict:
+                beacon_url = "weaviate://localhost/things/" + journals_dict[journal_name]
+                beacon = {"beacon": beacon_url}
+                paper_object['inJournal'] = [beacon]
 
-            beacon = "weaviate://localhost/things/" + journal_uuid
-            paper_object['inJournal'] = [{
-                "beacon": beacon
-            }]
-
-        # authors
         if paper["authors"] is not None:
-
-            # remove everything between parentheses (twice for recursion)
-            result = format_author_name(paper["authors"])
-            result = re.sub(r'\(.*\)', '', result)
-            result = re.sub("[\(\[\{].*?[\)\]\}]", "", result)
-
-            authors = result.split(', ')
-
+            name = format_author_name(paper["authors"])
+            authors = name.split(', ')
             authors_object = []
+
             for author in authors:
-                author_uuid = get_author_uuid(author)
-                beacon = "weaviate://localhost/things/" + author_uuid
-                authors_object.append({'beacon': beacon})
+                if author not in authors_dict:
+                    break
+                beacon_url = "weaviate://localhost/things/" + authors_dict[author]
+                beacon = {"beacon": beacon_url}
+                authors_object.append(beacon)
 
             if len(authors_object) > 0:
                 paper_object['hasAuthors'] = authors_object
 
-        batch.add_thing(paper_object, "Paper") 
-        no_papers_in_batch += 1
-        no_papers_imported += 1
-        if no_papers_in_batch >= 100:
-            result = client.batch.create_things(batch)
-            batch = weaviate.ThingsBatchRequest()
-            print('100 new papers imported in last batch, {} total papers imported.'.format(no_papers_imported))
-            no_papers_in_batch = 0
-
-        if no_papers_imported >= no_papers_to_import:
-            if no_papers_imported != no_papers_to_import:
+        paper_uuid = generate_uuid(paper_object["title"])
+        batch.add_thing(paper_object, "Paper", paper_uuid)
+        no_items_in_batch += 1
+        
+        if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
+            try: 
                 result = client.batch.create_things(batch)
-            print('Done importing: {} new papers imported in last batch, {} total papers imported.'.format(no_papers_in_batch, no_papers_imported))
-            print(result)
-            return
+                no_imported += no_items_in_batch
+                print('{} new papers imported in last batch, {} total papers imported.'.format(no_items_in_batch, no_imported))
 
-    # TO DO: lastestVersionCreated, pdfLink, link, licence, hasAuthors}
+                batch = weaviate.ThingsBatchRequest()
+                no_items_in_batch = 0
+            except Exception as e:
+                print('ERROR: ', str(e))
 
-def add_articles_to_authors():
-    query = "{Get {Things {Paper {uuid HasAuthors {... on Author {name uuid}}}}}}"
-    result = client.query.raw(query)
-    
-    try: 
-        data = result['data']['Get']['Things']['Paper']
-    
-        for paper in data:
-            paper_uuid = paper["uuid"]
-            authors = paper["HasAuthors"]
-            
-            for author in authors:
-                author_uuid = author["uuid"]
-                client.data_object.reference.add(author_uuid, "wrotePapers", paper_uuid)
-    except KeyError:
-        print("Got an key error: ", result)
-    except weaviate.UnexpectedStatusCodeException as usce:
-        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
+                batch = weaviate.ThingsBatchRequest()
+                no_items_in_batch = 0
 
+    return
 
-def add_data(no_papers_to_import=100, start=0):
-    add_papers(no_papers_to_import=no_papers_to_import, start=start)
+def add_data(categories_dict, max_papers=1000, start=0):
+    data = get_metadata()
+    categories_dict = get_ids_of_categories()
+    journals_dict = add_and_return_journals(data, max_papers=max_papers)
     time.sleep(2)
-    add_articles_to_authors()
+    authors_dict = add_and_return_authors(data, max_papers=max_papers)
+    time.sleep(2)
+    papers_dict = add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_import_items=max_papers)
 
 if __name__ == "__main__":
-    test_metadata()
-    add_papers(start=809)
-    time.sleep(2)
-    add_articles_to_authors()
+    #test_metadata()
+    data = get_metadata()
+    categories_dict = get_ids_of_categories()
+    max_papers = 200
+    journals_dict = add_and_return_journals(data, max_papers=max_papers)
+    authors_dict = add_and_return_authors(data, max_papers=max_papers)
+    papers_dict = add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_import_items=max_papers)
+
+# 1. batch add all the Authors (without refs)
+# 2. batch add all the papers (without refs) and batch add all the hasAuthors refs
+# 3. batch add all the wrotePapers refs

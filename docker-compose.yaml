@@ -11,7 +11,7 @@ services:
     - http
     depends_on:
     - esvector
-    image: semitechnologies/weaviate:0.22.16
+    image: semitechnologies/weaviate:0.22.17
     ports:
     - 8080:8080
     restart: on-failure:0
