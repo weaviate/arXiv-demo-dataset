@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[17]:
-
-
 import weaviate
 import json
 from bs4 import BeautifulSoup
@@ -13,9 +10,6 @@ import pandas as pd
 import time
 import copy
 
-# In[18]:
-
-
 def get_client():
     client = weaviate.Client("http://localhost:8080")
     meta_info = client.get_meta()
@@ -23,8 +17,6 @@ def get_client():
     return client
 
 client = get_client()
-# In[20]:
-
 
 def load_taxanomy():
     ## load taxonomy from https://arxiv.org/category_taxonomy
@@ -108,10 +100,6 @@ def load_taxanomy():
     
     return groups, archives, categories
 
-
-# In[23]:
-
-
 def add_groups(groups):
     # add groups to weaviate
     batch = weaviate.ThingsBatchRequest()
@@ -119,10 +107,6 @@ def add_groups(groups):
         batch.add_thing(group, "Group")
     client.batch.create_things(batch)
     time.sleep(2)
-
-
-# In[25]:
-
 
 def get_ids_of_groups():
     # get ids of groups
@@ -132,11 +116,6 @@ def get_ids_of_groups():
     for group in groups_with_uuids:
         groups_with_uuids_dict[group['name']] = group['uuid']
     return groups_with_uuids_dict
-
-
-
-# In[27]:
-
 
 def add_archives(archives):
     groups_with_uuids_dict = get_ids_of_groups()
@@ -154,10 +133,6 @@ def add_archives(archives):
     client.batch.create_things(batch)
     time.sleep(2)
 
-
-# In[29]:
-
-
 def get_ids_of_archives():
     # get ids of archives
     archives_with_uuids = client.query.get.things("Archive", ["name", "uuid"]).do()
@@ -166,11 +141,6 @@ def get_ids_of_archives():
     for archive in archives_with_uuids:
         archives_with_uuids_dict[archive['name']] = archive['uuid']
     return archives_with_uuids_dict
-
-
-
-# In[31]:
-
 
 def add_categories(categories):
     
@@ -208,7 +178,6 @@ def add_categories(categories):
     client.batch.create_things(batch)
     time.sleep(2)
 
-# In[33]:
 def add_full_taxanomy():
     groups, archives, categories = load_taxanomy()
     add_groups(groups)

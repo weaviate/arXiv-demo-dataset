@@ -18,4 +18,4 @@ if __name__ == "__main__":
     import_schema(schema_file)
 
     import_taxanomy.add_full_taxanomy() # adds groups, archives and categories
-    import_data.add_data(no_papers_to_import=2) # adds papers, journals and authors
+    import_data.add_data(no_papers_to_import=2000, start=0) # adds papers, journals and authors

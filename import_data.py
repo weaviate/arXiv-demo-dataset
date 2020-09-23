@@ -3,9 +3,6 @@
 
 # # ArXiv dataset with Weaviate
 
-# In[41]:
-
-
 import weaviate
 import json
 import tqdm
@@ -14,54 +11,33 @@ import time
 
 year_pattern = r'([1-2][0-9]{3})'
 
-
-# In[42]:
-
-
 def get_client():
     client = weaviate.Client("http://localhost:8080")
     meta_info = client.get_meta()
     print(meta_info)
     return client
 
-
-# In[43]:
-
-
 client = get_client()
-
-
-# In[44]:
-
 
 # get ids of categories
 def get_ids_of_categories():
     categories_with_uuids = client.query.get.things("Category", ["id", "uuid"]).with_limit(2000).do()
-    categories_with_uuids = categories_with_uuids['data']['Get']['Things']['Category']
-    categories_with_uuids_dict = {}
-    for category in categories_with_uuids:
-        categories_with_uuids_dict[category['id']] = category['uuid']
-    return categories_with_uuids_dict
-
-
-# In[45]:
-
-
-categories_with_uuids_dict = get_ids_of_categories()
-
-
-# In[46]:
-
+    try: 
+        categories_with_uuids = categories_with_uuids['data']['Get']['Things']['Category']
+        categories_with_uuids_dict = {}
+        for category in categories_with_uuids:
+            categories_with_uuids_dict[category['id']] = category['uuid']
+        return categories_with_uuids_dict
+    except KeyError:
+        print("Got an key error: ", result)
+    except weaviate.UnexpectedStatusCodeException as usce:
+        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
 # {title, doi, year, journalReference, arXivId, submitter, abstract, comments, hasCategories, versionHistory, lastestVersionCreated, lastestVersion, pdfLink, link, licence, reportNumber, hasAuthors, inJournal}
 def get_metadata():
     with open('./data/arxiv-metadata-oai.json', 'r') as f:
         for line in f:
             yield line
-
-
-# In[47]:
-
 
 # test
 def test_metadata():
@@ -71,17 +47,9 @@ def test_metadata():
             print(f'{k}: {v}')
         break
 
-
-# In[48]:
-
-
 def get_journal_name(a_string):
     splitted = re.split('([0-9]+)', a_string)
     return splitted[0]
-
-
-# In[49]:
-
 
 def get_journal_uuid(name):
     # check if journal exists
@@ -93,26 +61,23 @@ def get_journal_uuid(name):
 
     result = client.query.get.things("Journal", ["uuid"]).with_where(where_filter).with_limit(10000).do()
     
-    journals = result['data']['Get']['Things']['Journal']
-    if len(journals) > 0:
-        return journals[0]["uuid"]
-    else: # journal does not exist yet
-        data_obj = {"name": name}
-        create_result = client.data_object.create(data_obj, "Journal")
-        time.sleep(1)
-        return create_result
-
-
-# In[50]:
-
+    try: 
+        journals = result['data']['Get']['Things']['Journal']
+        if len(journals) > 0:
+            return journals[0]["uuid"]
+        else: # journal does not exist yet
+            data_obj = {"name": name}
+            create_result = client.data_object.create(data_obj, "Journal")
+            time.sleep(1)
+            return create_result
+    except KeyError:
+        print("Got an key error: ", result)
+    except weaviate.UnexpectedStatusCodeException as usce:
+        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
 def format_author_name(author):
     regex = re.compile(r'[\n\r\t\'\\\"\`]')
     return regex.sub('', author)
-
-
-# In[51]:
-
 
 def get_author_uuid(name):
     # check if journal exists
@@ -123,36 +88,41 @@ def get_author_uuid(name):
     }
 
     result = client.query.get.things("Author", ["uuid"]).with_where(where_filter).with_limit(10000).do()
-    authors = result['data']['Get']['Things']['Author']
-    if len(authors) > 0:
-        return authors[0]["uuid"]
-    else: # journal does not exist yet
-        data_obj = {"name": name}
-        create_result = client.data_object.create(data_obj, "Author")
-        time.sleep(1)
-        return create_result
-
-
-# In[52]:
-
+    try: 
+        authors = result['data']['Get']['Things']['Author']
+        if len(authors) > 0:
+            return authors[0]["uuid"]
+        else: # journal does not exist yet
+            data_obj = {"name": name}
+            create_result = client.data_object.create(data_obj, "Author")
+            time.sleep(1)
+            return create_result
+    except KeyError:
+        print("Got an key error: ", result)
+    except weaviate.UnexpectedStatusCodeException as usce:
+        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
 def extract_year(paper_id):
     year = 2000 + int(paper_id[:2])
         
     return year
 
-
-# In[53]:
-
-
-def add_papers(no_papers_to_import=100):
+def add_papers(no_papers_to_import=100, start=0):
     metadata = get_metadata()
 
     batch = weaviate.ThingsBatchRequest()
     no_papers_in_batch  = 0
     no_papers_imported = 0
 
+    # for debugging
+    skipped = 0
+
     for paper in metadata:
+        if skipped < start:
+            skipped += 1
+            continue
+        print(no_papers_imported+start)
+
         paper = json.loads(paper)
         paper_object = {}
 
@@ -176,6 +146,7 @@ def add_papers(no_papers_to_import=100):
         paper_object["hasCategories"] = []
         for category in paper["categories"][0].split(' '): # id of category
             # create beacon
+            categories_with_uuids_dict = get_ids_of_categories()
             beacon_url = "weaviate://localhost/things/" + categories_with_uuids_dict[category]
             beacon = {"beacon": beacon_url}
             paper_object["hasCategories"].append(beacon)
@@ -183,7 +154,8 @@ def add_papers(no_papers_to_import=100):
         # journal
         if paper["journal-ref"] is not None:
             journal_name = get_journal_name(paper["journal-ref"])
-            journal_uuid = get_journal_uuid(journal_name.replace('\n', ' '))
+            journal_name = re.sub('[\"\'\n]', '', journal_name)
+            journal_uuid= get_journal_uuid(journal_name)
 
             beacon = "weaviate://localhost/things/" + journal_uuid
             paper_object['inJournal'] = [{
@@ -212,52 +184,48 @@ def add_papers(no_papers_to_import=100):
         batch.add_thing(paper_object, "Paper") 
         no_papers_in_batch += 1
         no_papers_imported += 1
-        if no_papers_in_batch > 100:
+        if no_papers_in_batch >= 100:
             result = client.batch.create_things(batch)
             batch = weaviate.ThingsBatchRequest()
+            print('100 new papers imported in last batch, {} total papers imported.'.format(no_papers_imported))
             no_papers_in_batch = 0
 
-        if no_papers_imported >= no_papers_to_import :
-            result = client.batch.create_things(batch)
+        if no_papers_imported >= no_papers_to_import:
+            if no_papers_imported != no_papers_to_import:
+                result = client.batch.create_things(batch)
+            print('Done importing: {} new papers imported in last batch, {} total papers imported.'.format(no_papers_in_batch, no_papers_imported))
             print(result)
             return
 
     # TO DO: lastestVersionCreated, pdfLink, link, licence, hasAuthors}
 
-
-# In[54]:
-
-
 def add_articles_to_authors():
     query = "{Get {Things {Paper {uuid HasAuthors {... on Author {name uuid}}}}}}"
     result = client.query.raw(query)
     
-    data = result['data']['Get']['Things']['Paper']
+    try: 
+        data = result['data']['Get']['Things']['Paper']
     
-    for paper in data:
-        paper_uuid = paper["uuid"]
-        authors = paper["HasAuthors"]
-        
-        for author in authors:
-            author_uuid = author["uuid"]
-            client.data_object.reference.add(author_uuid, "wrotePapers", paper_uuid)
+        for paper in data:
+            paper_uuid = paper["uuid"]
+            authors = paper["HasAuthors"]
+            
+            for author in authors:
+                author_uuid = author["uuid"]
+                client.data_object.reference.add(author_uuid, "wrotePapers", paper_uuid)
+    except KeyError:
+        print("Got an key error: ", result)
+    except weaviate.UnexpectedStatusCodeException as usce:
+        print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
 
-# In[55]:
-
-def add_data(no_papers_to_import=100):
-    add_papers(no_papers_to_import=no_papers_to_import)
+def add_data(no_papers_to_import=100, start=0):
+    add_papers(no_papers_to_import=no_papers_to_import, start=start)
     time.sleep(2)
     add_articles_to_authors()
-
-
-# In[ ]:
 
 if __name__ == "__main__":
     test_metadata()
-    add_papers()
+    add_papers(start=809)
     time.sleep(2)
     add_articles_to_authors()
-
-
-# %%
