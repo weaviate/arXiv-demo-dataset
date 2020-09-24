@@ -35,8 +35,7 @@
                         "description": "Information about the journal the paper was published in",
                         "name": "inJournal",
                         "vectorizePropertyName": true,
-                        "index": true,
-                        "cardinality": "many"
+                        "index": true
                     },
                     {
                         "dataType": [
@@ -99,8 +98,7 @@
                         "description": "Categories or tags of the paper in the ArXiv system",
                         "index": true,
                         "name": "hasCategories",
-                        "vectorizePropertyName": true,
-                        "cardinality": "many"
+                        "vectorizePropertyName": true
                     },
                     {
                         "dataType": [
@@ -154,8 +152,7 @@
                         "description": "Authors of the paper",
                         "index": true,
                         "name": "hasAuthors",
-                        "vectorizePropertyName": true,
-                        "cardinality": "many"
+                        "vectorizePropertyName": true
                     },
                     {
                         "dataType": [
@@ -196,8 +193,7 @@
                         "description": "Reference to the papers the author wrote",
                         "name": "wrotePapers",
                         "vectorizePropertyName": true,
-                        "index": true,
-                        "cardinality": "many"
+                        "index": true
                     }
                 ]
             }, {
@@ -251,8 +247,7 @@
                         "description": "Archive of the category",
                         "name": "inArchive",
                         "vectorizePropertyName": true,
-                        "index": true,
-                        "cardinality": "many"
+                        "index": true
                     }
                 ]
             }, {

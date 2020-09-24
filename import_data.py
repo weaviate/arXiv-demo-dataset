@@ -60,7 +60,6 @@ def get_ids_of_categories():
     except weaviate.UnexpectedStatusCodeException as usce:
         print("Got an error: ", usce.json, " with status code: ", usce.status_code)
 
-
 def format_author_name(author):
     regex = re.compile(r'[\n\r\t\'\\\"\`]')
     result = regex.sub('', author)
@@ -241,7 +240,7 @@ def add_and_return_papers(data, categories_dict, journals_dict, authors_dict, ma
 
     return
 
-def add_data(categories_dict, max_papers=1000, start=0):
+def add_data(categories_dict, max_papers=float('inf'), start=0):
     data = get_metadata()
     categories_dict = get_ids_of_categories()
     journals_dict = add_and_return_journals(data, max_papers=max_papers)
