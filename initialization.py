@@ -2,6 +2,7 @@ import weaviate
 import json
 import import_data
 import import_taxanomy
+import sys
 
 client = weaviate.Client("http://localhost:8080")
 
@@ -18,4 +19,9 @@ if __name__ == "__main__":
     import_schema(schema_file)
 
     categories_with_uuid = import_taxanomy.add_full_taxanomy() # adds groups, archives and categories
-    import_data.add_data(categories_with_uuid, max_papers=200000, start=0) # adds papers, journals and authors
+
+    if len(sys.argv) > 1:
+        max_papers = int(sys.argv[1])
+    else:
+        max_papers = 10000000
+    import_data.add_data(categories_with_uuid, max_papers=max_papers)

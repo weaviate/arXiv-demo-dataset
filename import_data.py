@@ -25,6 +25,17 @@ def get_metadata():
         for line in f:
             yield line
 
+def get_metadata_list(max_size):
+    data  = []
+    with open('./data/arxiv-metadata-oai.json', 'r') as f:
+        for line in f:
+            if len(data) >= max_size:
+                return data[:max_size]
+            data.append(json.loads(line))
+    if len(data) <= max_size:
+        return data
+    return data[:max_size]
+
 def test_metadata():
     metadata = get_metadata()
     for paper in metadata:
@@ -76,14 +87,14 @@ def add_and_return_authors(data, batch_size=512, max_papers=float('inf'), max_im
     
     for paper in data:
         if no_imported >= max_import_items:
-            return
+            return authors_dict
 
-        paper = json.loads(paper)
+        # paper = json.loads(paper)
         if paper["authors"] is not None:
 
             # remove everything between parentheses (twice for recursion)
             name = format_author_name(paper["authors"])
-            authors = name.split(', ')
+            authors = name.replace(' and ', ', ').split(', ')
 
             for author in authors:
                 if author not in authors_dict:
@@ -94,18 +105,33 @@ def add_and_return_authors(data, batch_size=512, max_papers=float('inf'), max_im
                     authors_dict[author] = author_uuid
 
                 if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
-                    result = client.batch.create_things(batch)
-                    no_imported += no_items_in_batch
-                    print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
-
-                    batch = weaviate.ThingsBatchRequest()
-                    no_items_in_batch = 0
+                    
+                    try:
+                        result = client.batch.create_things(batch)
+                        no_imported += no_items_in_batch
+                        print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
+                        batch = weaviate.ThingsBatchRequest()
+                        no_items_in_batch = 0
+                    except weaviate.UnexpectedStatusCodeException as usce:
+                        print('Handle weaviate error: ', usce.status_code, usce.json)
+                    except weaviate.ConnectionError as ce:
+                        print('Handle networking error: ', ce)
+                    except Exception as e:
+                        print("Error: ", e)
 
         no_of_papers += 1
         if no_of_papers >= max_papers:
-            result = client.batch.create_things(batch)
-            no_imported += no_items_in_batch
-            print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
+            try:
+                result = client.batch.create_things(batch)
+                no_imported += no_items_in_batch
+                print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
+            except weaviate.UnexpectedStatusCodeException as usce:
+                print('Handle weaviate error: ', usce.status_code, usce.json)
+            except weaviate.ConnectionError as ce:
+                print('Handle networking error: ', ce)
+            except Exception as e:
+                print("Error: ", e)
+
             return authors_dict
 
     return authors_dict
@@ -126,7 +152,7 @@ def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_i
         if no_imported >= max_import_items:
             return
 
-        paper = json.loads(paper)
+        # paper = json.loads(paper)
 
         if paper["journal-ref"] is not None:
             journal_name = format_journal_name(paper["journal-ref"])
@@ -138,19 +164,36 @@ def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_i
                 journals_dict[journal_name] = journal_uuid
 
             if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
-                result = client.batch.create_things(batch)
-                no_imported += no_items_in_batch
-                print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
+                try:
+                    result = client.batch.create_things(batch)
+                    no_imported += no_items_in_batch
+                    print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
 
-                batch = weaviate.ThingsBatchRequest()
-                no_items_in_batch = 0
+                    batch = weaviate.ThingsBatchRequest()
+                    no_items_in_batch = 0
+                except weaviate.UnexpectedStatusCodeException as usce:
+                    print('handle weaviate error: ', usce.status_code, usce.json)
+                except weaviate.ConnectionError as ce:
+                    print('handle networking error: ', ce)
+                except Exception as e:
+                    print("Error: ", e)
 
             no_of_papers += 1
             if no_of_papers >= max_papers:
-                result = client.batch.create_things(batch)
-                no_imported += no_items_in_batch
-                print('{} new journals imported in last batch, {} total journals imported.'.format(no_items_in_batch, no_imported))
-                return journals_dict
+                try:
+                    result = client.batch.create_things(batch)
+                    no_imported += no_items_in_batch
+                    print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
+
+                    batch = weaviate.ThingsBatchRequest()
+                    no_items_in_batch = 0
+                    return journals_dict
+                except weaviate.UnexpectedStatusCodeException as usce:
+                    print('handle weaviate error: ', usce.status_code, usce.json)
+                except weaviate.ConnectionError as ce:
+                    print('handle networking error: ', ce)
+                except Exception as e:
+                    print("Error: ", e)
 
     return journals_dict
 
@@ -159,15 +202,20 @@ def add_and_return_papers(data, categories_dict, journals_dict, authors_dict, ma
 
     no_items_in_batch = 0
     no_imported = 0
+
+    paper_authors_uuids_dict = {}
     
     for paper in data:
         if no_imported >= max_import_items:
-            return
+            return paper_authors_uuids_dict
 
-        paper = json.loads(paper)
+        # paper = json.loads(paper)
         paper_object = {}
 
         if paper["title"] is not None: paper_object["title"] = paper["title"].replace('\n', ' ')
+
+        paper_uuid = generate_uuid(paper_object["title"])
+
         if paper["doi"] is not None: paper_object["doi"] = paper["doi"]
         if paper["journal-ref"] is not None: paper_object["journalReference"] = paper["journal-ref"]
         if paper["id"] is not None: paper_object["arxivId"] = paper["id"]
@@ -209,54 +257,91 @@ def add_and_return_papers(data, categories_dict, journals_dict, authors_dict, ma
             name = format_author_name(paper["authors"])
             authors = name.split(', ')
             authors_object = []
+            authors_uuid_list = []
 
             for author in authors:
                 if author not in authors_dict:
                     break
+
                 beacon_url = "weaviate://localhost/things/" + authors_dict[author]
                 beacon = {"beacon": beacon_url}
                 authors_object.append(beacon)
+                authors_uuid_list.append(authors_dict[author])
 
             if len(authors_object) > 0:
                 paper_object['hasAuthors'] = authors_object
+                paper_authors_uuids_dict[paper_uuid] = authors_uuid_list
 
-        paper_uuid = generate_uuid(paper_object["title"])
         batch.add_thing(paper_object, "Paper", paper_uuid)
         no_items_in_batch += 1
         
         if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
-            try: 
+            try:
                 result = client.batch.create_things(batch)
                 no_imported += no_items_in_batch
                 print('{} new papers imported in last batch, {} total papers imported.'.format(no_items_in_batch, no_imported))
-
                 batch = weaviate.ThingsBatchRequest()
                 no_items_in_batch = 0
+            except weaviate.UnexpectedStatusCodeException as usce:
+                print('handle weaviate error: ', usce.status_code, usce.json)
+            except weaviate.ConnectionError as ce:
+                print('handle networking error: ', ce)
             except Exception as e:
-                print('ERROR: ', str(e))
+                print("Error: ", e)
 
-                batch = weaviate.ThingsBatchRequest()
-                no_items_in_batch = 0
+    return paper_authors_uuids_dict
 
-    return
+def add_wrotepapers_cref(paper_authors_uuids_dict, batch_size=512):
+    batch = weaviate.ReferenceBatchRequest()
 
-def add_data(categories_dict, max_papers=float('inf'), start=0):
-    data = get_metadata()
+    no_items_in_batch = 0
+    no_imported = 0
+
+    for paper, authors in paper_authors_uuids_dict.items():
+        for author in authors:
+            beacon_url = "weaviate://localhost/things/" + paper
+            beacon = {"beacon": beacon_url}
+
+            batch.add_reference(author, "Author", "wrotePapers", paper)
+            no_items_in_batch += 1
+
+        if no_items_in_batch >= batch_size:
+            client.batch.add_references(batch)
+            no_imported += no_items_in_batch
+            print('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(no_items_in_batch, no_imported))
+
+            batch = weaviate.ReferenceBatchRequest()
+            no_items_in_batch = 0
+    
+    client.batch.add_references(batch)
+    no_imported += no_items_in_batch
+    print('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(no_items_in_batch, no_imported))
+
+    return    
+
+def add_data(categories_dict, max_papers=float('inf')):
+    data = get_metadata_list(max_size=max_papers)
     categories_dict = get_ids_of_categories()
     journals_dict = add_and_return_journals(data, max_papers=max_papers)
     time.sleep(2)
     authors_dict = add_and_return_authors(data, max_papers=max_papers)
     time.sleep(2)
-    papers_dict = add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_import_items=max_papers)
+    paper_authors_uuids_dict = add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_import_items=max_papers)
+    time.sleep(2)
+    add_wrotepapers_cref(paper_authors_uuids_dict)
 
 if __name__ == "__main__":
     #test_metadata()
-    data = get_metadata()
-    categories_dict = get_ids_of_categories()
     max_papers = 200
+    data = get_metadata_list(max_size=max_papers)
+    categories_dict = get_ids_of_categories()
     journals_dict = add_and_return_journals(data, max_papers=max_papers)
+    time.sleep(2)
     authors_dict = add_and_return_authors(data, max_papers=max_papers)
-    papers_dict = add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_import_items=max_papers)
+    time.sleep(2)
+    paper_authors_uuids_dict = add_and_return_papers(data, categories_dict, journals_dict, authors_dict, max_import_items=max_papers)
+    time.sleep(2)
+    add_wrotepapers_cref(paper_authors_uuids_dict)
 
 # 1. batch add all the Authors (without refs)
 # 2. batch add all the papers (without refs) and batch add all the hasAuthors refs
