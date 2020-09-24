@@ -3,3 +3,4 @@ tqdm==4.49.0
 weaviate_client==1.2.0
 requests==2.24.0
 beautifulsoup4==4.9.1
+lxml>=4.5.2
