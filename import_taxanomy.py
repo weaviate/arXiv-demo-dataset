@@ -19,14 +19,15 @@ def get_client():
 
 client = get_client()
 
-def generate_uuid(identifier):
+def generate_uuid(classname, identifier):
     """ Generate an uuid
     :param namespace: allows to make identifiers unique if they come from different source systems.
                         E.g. google maps, osm, ...
     :param identifier: that is used to generate the uuid
     :return: properly formed uuid in form of string
     """
-    return str(uuid.uuid5(uuid.NAMESPACE_DNS, identifier))
+    name = classname + identifier
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
 def load_taxanomy():
     ## load taxonomy from https://arxiv.org/category_taxonomy
@@ -115,10 +116,14 @@ def add_groups(groups):
     batch = weaviate.ThingsBatchRequest()
     groups_with_uuid = {}
     for group in groups:
-        uuid = generate_uuid('group' + group['name'])
+        uuid = generate_uuid('Group', group['name'])
         batch.add_thing(group, "Group", uuid)
         groups_with_uuid['group' + group['name']] = uuid
-    client.batch.create_things(batch)
+    results = client.batch.create_things(batch)
+    for result in results: 
+        if result['result']:
+            print(result['result'])
+    print('{} new Group objects imported in last batch.'.format(len(batch)))
     time.sleep(2)
     return groups_with_uuid
 
@@ -139,7 +144,7 @@ def add_archives(archives, groups_with_uuids_dict):
     archives_copy = archives
     archives_with_uuid = {}
     for archive in archives_copy:
-        uuid = generate_uuid('archive' + archive["name"])
+        uuid = generate_uuid('Archive', archive["name"])
         group_beacon = "weaviate://localhost/things/" + groups_with_uuids_dict['group' + archive['inGroup']]
         archive['inGroup'] = [{
             "beacon": group_beacon
@@ -147,7 +152,11 @@ def add_archives(archives, groups_with_uuids_dict):
         batch.add_thing(archive, "Archive", uuid)
         archives_with_uuid['archive' + archive["name"]] = uuid
 
-    client.batch.create_things(batch)
+    results = client.batch.create_things(batch)
+    for result in results: 
+        if result['result']:
+            print(result['result'])
+    print('{} new Archive objects imported in last batch.'.format(len(batch)))
     time.sleep(2)
     return archives_with_uuid
 
@@ -173,8 +182,8 @@ def add_categories(categories, archives_with_uuids_dict):
 
     for category in categories:
         category_copy = copy.deepcopy(category)
-        category_uuid = 'category' + category_copy["name"]
-        uuid = generate_uuid(category_uuid)
+        category_uuid = category_copy["name"]
+        uuid = generate_uuid('Category', category_uuid)
         archive_beacon = "weaviate://localhost/things/" + archives_with_uuids_dict['archive' + category['inArchive']]
         category_copy['inArchive'] = [{
             "beacon": archive_beacon
@@ -194,12 +203,15 @@ def add_categories(categories, archives_with_uuids_dict):
             extra_category['inArchive'] = [{
                 "beacon": archive_beacon
             }]
-            category_uuid = 'extracategory' + extra_category["name"]
-            uuid = generate_uuid(category_uuid)
+            uuid = generate_uuid('ExtraCategory', extra_category["name"])
             batch.add_thing(extra_category, "Category", uuid)
             categories_with_uuid[extra_category["id"]] = uuid
 
-    result = client.batch.create_things(batch)
+    results = client.batch.create_things(batch)
+    for result in results: 
+        if result['result']:
+            print(result['result'])
+    print('{} new Category objects imported in last batch.'.format(len(batch)))
     time.sleep(2)
 
 def add_full_taxanomy():

@@ -16,6 +16,7 @@ services:
     - 8080:8080
     restart: on-failure:0
     environment:
+      LOG_LEVEL: debug
       CONFIGURATION_STORAGE_TYPE: etcd
       CONFIGURATION_STORAGE_URL: http://etcd:2379
       CONTEXTIONARY_URL: contextionary:9999
@@ -33,7 +34,7 @@ services:
     - 9999:9999
   esvector:
     environment:
-      ES_JAVA_OPTS: -Xms500m -Xmx500m
+      ES_JAVA_OPTS: -Xms4g -Xmx4g
       discovery.type: single-node
       xpack.security.enabled: 'false'
     image: semitechnologies/esvector:7.1.0

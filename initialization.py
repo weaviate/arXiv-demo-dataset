@@ -16,7 +16,6 @@ def import_schema(schema_file):
     client.schema.delete_all()
     client.schema.create(schema)
 
-
 if __name__ == "__main__":
     # Import the full schema to Weaviate
     schema_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'schema.json')

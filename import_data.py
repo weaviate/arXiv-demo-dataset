@@ -27,6 +27,7 @@ def get_metadata():
 
 def get_metadata_list(max_size):
     data  = []
+    print('Start loading ArXiv dataset ...')
     with open('./data/arxiv-metadata-oai.json', 'r') as f:
         for line in f:
             if len(data) >= max_size:
@@ -43,14 +44,15 @@ def test_metadata():
             print(f'{k}: {v}')
         break
 
-def generate_uuid(identifier):
+def generate_uuid(classname, identifier):
     """ Generate an uuid
     :param namespace: allows to make identifiers unique if they come from different source systems.
                         E.g. google maps, osm, ...
     :param identifier: that is used to generate the uuid
     :return: properly formed uuid in form of string
     """
-    return str(uuid.uuid5(uuid.NAMESPACE_DNS, identifier))
+    name = classname + identifier
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
 def extract_year(paper_id):
     year = 2000 + int(paper_id[:2])
@@ -99,7 +101,7 @@ def add_and_return_authors(data, batch_size=512, max_papers=float('inf'), max_im
             for author in authors:
                 if author not in authors_dict:
                     # add author to batch
-                    author_uuid = generate_uuid(author)
+                    author_uuid = generate_uuid('Author', author)
                     batch.add_thing({"name": author}, "Author", author_uuid)
                     no_items_in_batch += 1
                     authors_dict[author] = author_uuid
@@ -107,7 +109,10 @@ def add_and_return_authors(data, batch_size=512, max_papers=float('inf'), max_im
                 if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
                     
                     try:
-                        result = client.batch.create_things(batch)
+                        results = client.batch.create_things(batch)
+                        for result in results: 
+                            if result['result']:
+                                print(result['result'])
                         no_imported += no_items_in_batch
                         print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
                         batch = weaviate.ThingsBatchRequest()
@@ -122,7 +127,10 @@ def add_and_return_authors(data, batch_size=512, max_papers=float('inf'), max_im
         no_of_papers += 1
         if no_of_papers >= max_papers:
             try:
-                result = client.batch.create_things(batch)
+                results = client.batch.create_things(batch)
+                for result in results: 
+                    if result['result']:
+                        print(result['result'])
                 no_imported += no_items_in_batch
                 print('{} new authors imported in last batch, {} total authors imported.'.format(no_items_in_batch, no_imported))
             except weaviate.UnexpectedStatusCodeException as usce:
@@ -156,7 +164,7 @@ def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_i
 
         if paper["journal-ref"] is not None:
             journal_name = format_journal_name(paper["journal-ref"])
-            journal_uuid = generate_uuid(journal_name)
+            journal_uuid = generate_uuid('Journal', journal_name)
 
             if journal_name not in journals_dict:
                 batch.add_thing({"name": journal_name}, "Journal", journal_uuid)
@@ -165,7 +173,10 @@ def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_i
 
             if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
                 try:
-                    result = client.batch.create_things(batch)
+                    results = client.batch.create_things(batch)
+                    for result in results: 
+                        if result['result']:
+                            print(result['result'])
                     no_imported += no_items_in_batch
                     print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
 
@@ -181,7 +192,10 @@ def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_i
             no_of_papers += 1
             if no_of_papers >= max_papers:
                 try:
-                    result = client.batch.create_things(batch)
+                    results = client.batch.create_things(batch)
+                    for result in results: 
+                        if result['result']:
+                            print(result['result'])
                     no_imported += no_items_in_batch
                     print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
 
@@ -194,6 +208,24 @@ def add_and_return_journals(data, batch_size=512, max_papers=float('inf'), max_i
                     print('handle networking error: ', ce)
                 except Exception as e:
                     print("Error: ", e)
+
+    try:
+        results = client.batch.create_things(batch)
+        for result in results: 
+            if result['result']:
+                print(result['result'])
+        no_imported += no_items_in_batch
+        print('{} new journals imported in last batch, {} total journal imported.'.format(no_items_in_batch, no_imported))
+
+        batch = weaviate.ThingsBatchRequest()
+        no_items_in_batch = 0
+        return journals_dict
+    except weaviate.UnexpectedStatusCodeException as usce:
+        print('handle weaviate error: ', usce.status_code, usce.json)
+    except weaviate.ConnectionError as ce:
+        print('handle networking error: ', ce)
+    except Exception as e:
+        print("Error: ", e)
 
     return journals_dict
 
@@ -214,7 +246,7 @@ def add_and_return_papers(data, categories_dict, journals_dict, authors_dict, ma
 
         if paper["title"] is not None: paper_object["title"] = paper["title"].replace('\n', ' ')
 
-        paper_uuid = generate_uuid(paper_object["title"])
+        paper_uuid = generate_uuid('Paper', paper_object["title"])
 
         if paper["doi"] is not None: paper_object["doi"] = paper["doi"]
         if paper["journal-ref"] is not None: paper_object["journalReference"] = paper["journal-ref"]
@@ -277,7 +309,10 @@ def add_and_return_papers(data, categories_dict, journals_dict, authors_dict, ma
         
         if no_items_in_batch >= batch_size or (no_imported+no_items_in_batch) >= max_import_items:
             try:
-                result = client.batch.create_things(batch)
+                results = client.batch.create_things(batch)
+                for result in results: 
+                    if result['result']:
+                        print(result['result'], 'paper body = ', paper_object, paper)
                 no_imported += no_items_in_batch
                 print('{} new papers imported in last batch, {} total papers imported.'.format(no_items_in_batch, no_imported))
                 batch = weaviate.ThingsBatchRequest()
@@ -306,14 +341,20 @@ def add_wrotepapers_cref(paper_authors_uuids_dict, batch_size=512):
             no_items_in_batch += 1
 
         if no_items_in_batch >= batch_size:
-            client.batch.add_references(batch)
+            results = client.batch.add_references(batch)
+            for result in results: 
+                if result['result']['status'] != 'SUCCESS':
+                    print(result['result'])
             no_imported += no_items_in_batch
             print('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(no_items_in_batch, no_imported))
 
             batch = weaviate.ReferenceBatchRequest()
             no_items_in_batch = 0
     
-    client.batch.add_references(batch)
+    results = client.batch.add_references(batch)
+    for result in results: 
+        if result['result']['status'] != 'SUCCESS':
+            print(result['result'])
     no_imported += no_items_in_batch
     print('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(no_items_in_batch, no_imported))
 
@@ -321,6 +362,7 @@ def add_wrotepapers_cref(paper_authors_uuids_dict, batch_size=512):
 
 def add_data(categories_dict, max_papers=float('inf')):
     data = get_metadata_list(max_size=max_papers)
+    print('Completed loading ArXiv dataset! ...')
     categories_dict = get_ids_of_categories()
     journals_dict = add_and_return_journals(data, max_papers=max_papers)
     time.sleep(2)
@@ -332,8 +374,9 @@ def add_data(categories_dict, max_papers=float('inf')):
 
 if __name__ == "__main__":
     #test_metadata()
-    max_papers = 200
+    max_papers = 1000
     data = get_metadata_list(max_size=max_papers)
+    print('Completed loading ArXiv dataset! ...')
     categories_dict = get_ids_of_categories()
     journals_dict = add_and_return_journals(data, max_papers=max_papers)
     time.sleep(2)
