@@ -1,0 +1,28 @@
+notifications:
+  email:
+    on_success: change
+language: python
+os: linux
+
+jobs:
+  include:
+    - stage: "Unit tests"
+      name: "3.7"
+      branches:
+        only:
+          - master
+      python: "3.7"
+      install:
+        - pip install -r requirements.txt
+      script:
+        - python -m unittest test.hello_world_test
+
+    - name: "3.8"
+      branches:
+        only:
+          - master
+      python: "3.8"
+      install:
+        - pip install -r requirements.txt
+      script:
+        - python -m unittest test.hello_world_test
