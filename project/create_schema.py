@@ -27,8 +27,11 @@ def create_schema(
     client = weaviate.Client(weaviate_url)
     if not client.is_ready():
         raise Exception("Container is not ready")
-    if not client.schema.contains() or overwrite:
-        log("Creating schema")
+    if (not client.schema.contains()) or overwrite:
+        if overwrite:
+            log("Deleting existing schema ...")
+            client.schema.delete_all()
+        log("Creating schema ...")
         client.schema.create(schema)
         log("Done Creating schema")
     else:

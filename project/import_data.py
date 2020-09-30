@@ -3,6 +3,7 @@ import json
 import tqdm
 import re
 import time
+import os
 try:
     from project.helper import *
 except ModuleNotFoundError:
@@ -299,3 +300,20 @@ def add_wrotepapers_cref(
 
     time.sleep(2)
     return
+
+if __name__ == "__main__":
+    client = weaviate.Client("http://localhost:8080")
+
+    data = get_metadata('./data/arxiv-metadata-oai.json')
+
+    # get categories
+    result = client.query.get.things("Category", ["name", "uuid"]).do()
+    categories_list = result["data"]["Get"]["Things"]["Category"]
+    categories_with_uuid = {}
+    for category in categories_list:
+        categories_with_uuid[category["name"]] = category["uuid"]
+    
+    journals = add_and_return_journals(client, data)
+    authors = add_and_return_authors(client, data)
+    papers = add_and_return_papers(client, data, categories_dict=categories_with_uuid, journals_dict=journals, authors_dict=authors)
+    add_wrotepapers_cref(client, papers)

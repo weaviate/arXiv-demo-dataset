@@ -13,7 +13,7 @@ default_args = {
     "schema": os.path.join(
         os.path.dirname(
             os.path.realpath(__file__)),
-        'schema/schema.json'),
+        'project/schema.json'),
     "weaviate": "http://localhost:8080",
     "overwrite_schema": False,
     "n_papers": float('inf'),
@@ -74,7 +74,7 @@ def user_input() -> dict:
             default=os.path.join(
                 os.path.dirname(
                     os.path.realpath(__file__)),
-                'schema/schema.json'))
+                'project/schema.json'))
         parser.add_argument(
             '-w',
             '--weaviate',
@@ -175,9 +175,15 @@ if __name__ == "__main__":
             client=client,
             categories=taxanomy_dict["categories"],
             archives_with_uuids_dict=archives_with_uuid)
+    else:  # get categories from weaviate
+        result = client.query.get.things("Category", ["name", "uuid"]).do()
+        categories_list = result["data"]["Get"]["Things"]["Category"]
+        categories_with_uuid = []
+        for category in categories_list:
+            categories_with_uuid[category["name"]] = category["uuid"]
 
     # add journals, authors, papers and references
-    data = import_data.get_metadata(
+    data = helper.get_metadata(
         datafile=arguments["metadata_file"],
         max_size=arguments["n_papers"])
 
