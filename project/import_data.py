@@ -2,9 +2,34 @@ import weaviate
 import json
 import tqdm
 import re
-from project.helper import *
+import time
+try:
+    from project.helper import *
+except ModuleNotFoundError:
+    from helper import *
 
-def add_and_return_journals(client, data: list, batch_size: int=512, n_papers: float=float('inf'), skip_n_papers: bool=False) -> dict:
+
+def add_and_return_journals(
+        client: weaviate.client.Client,
+        data: list,
+        batch_size: int = 512,
+        n_papers: float = float('inf'),
+        skip_n_papers: bool = False) -> dict:
+    """ Adds journals of the papers to weaviate
+
+    :param client: python client connection
+    :type client: weaviate.client.Client
+    :param data: the metadata of all papers to add
+    :type data: list
+    :param batch_size: number of items in a batch, defaults to 512
+    :type batch_size: int, optional
+    :param n_papers: number of papers to import in total, defaults to float('inf')
+    :type n_papers: float, optional
+    :param skip_n_papers: number of papers to skip before start of import, defaults to False
+    :type skip_n_papers: bool, optional
+    :return: journals with uuids
+    :rtype: dict
+    """
     # add groups to weaviate
     log('Start adding Journals')
 
@@ -14,14 +39,15 @@ def add_and_return_journals(client, data: list, batch_size: int=512, n_papers: f
     no_imported = 0
 
     journals_dict = {}
-    
-    for paper in data[skip_n_papers:n_papers+skip_n_papers]:
+
+    for paper in data[skip_n_papers:n_papers + skip_n_papers]:
         if paper["journal-ref"] is not None:
             journal_name = format_journal_name(paper["journal-ref"])
             journal_uuid = generate_uuid('Journal', journal_name)
 
             if journal_name not in journals_dict:
-                batch.add_thing({"name": journal_name}, "Journal", journal_uuid)
+                batch.add_thing({"name": journal_name},
+                                "Journal", journal_uuid)
                 no_items_in_batch += 1
                 journals_dict[journal_name] = journal_uuid
 
@@ -37,17 +63,38 @@ def add_and_return_journals(client, data: list, batch_size: int=512, n_papers: f
     time.sleep(2)
     return journals_dict
 
-def add_and_return_authors(client, data: list, batch_size: int=512, n_papers: float=float('inf'), skip_n_papers: bool=False) -> dict:
+
+def add_and_return_authors(
+        client: weaviate.client.Client,
+        data: list,
+        batch_size: int = 512,
+        n_papers: float = float('inf'),
+        skip_n_papers: bool = False) -> dict:
+    """[summary]
+
+    :param client: python client connection
+    :type client: weaviate.client.Client
+    :param data: the metadata of all papers to add
+    :type data: list
+    :param batch_size: number of items in a batch, defaults to 512
+    :type batch_size: int, optional
+    :param n_papers: number of papers to import in total, defaults to float('inf')
+    :type n_papers: float, optional
+    :param skip_n_papers: number of papers to skip before start of import, defaults to False
+    :type skip_n_papers: bool, optional
+    :return: authods with uuids
+    :rtype: dict
+    """
     log('Start adding Authors')
 
     batch = weaviate.ThingsBatchRequest()
-    
+
     no_items_in_batch = 0
     no_imported = 0
-    
+
     authors_dict = {}
 
-    for paper in data[skip_n_papers:n_papers+skip_n_papers]:
+    for paper in data[skip_n_papers:n_papers + skip_n_papers]:
         if paper["authors"] is not None:
             # remove everything between parentheses (twice for recursion)
             authors = format_author_name(paper["authors"])
@@ -73,7 +120,36 @@ def add_and_return_authors(client, data: list, batch_size: int=512, n_papers: fl
     return authors_dict
 
 
-def add_and_return_papers(client, data: list, categories_dict: dict, journals_dict: dict, authors_dict: dict, batch_size: int=512, n_papers: float=float('inf'), skip_n_papers: bool=False) -> dict:
+def add_and_return_papers(
+        client: weaviate.client.Client,
+        data: list,
+        categories_dict: dict,
+        journals_dict: dict,
+        authors_dict: dict,
+        batch_size: int = 512,
+        n_papers: float = float('inf'),
+        skip_n_papers: bool = False) -> dict:
+    """[summary]
+
+    :param client: python client connection
+    :type client: weaviate.client.Client
+    :param data: the metadata of all papers to add
+    :type data: list
+    :param categories_dict: categories with uuids
+    :type categories_dict: dict
+    :param journals_dict: journals with uuids
+    :type journals_dict: dict
+    :param authors_dict: authors with uuids
+    :type authors_dict: dict
+    :param batch_size: number of items in a batch, defaults to 512
+    :type batch_size: int, optional
+    :param n_papers: number of papers to import in total, defaults to float('inf')
+    :type n_papers: float, optional
+    :param skip_n_papers: number of papers to skip before start of import, defaults to False
+    :type skip_n_papers: bool, optional
+    :return: uuids of all papers with uuids the authors
+    :rtype: dict
+    """
     log('Start adding Papers')
 
     batch = weaviate.ThingsBatchRequest()
@@ -82,30 +158,34 @@ def add_and_return_papers(client, data: list, categories_dict: dict, journals_di
     no_imported = 0
 
     paper_authors_uuids_dict = {}
-    
 
-    for paper in data[skip_n_papers:n_papers+skip_n_papers]:        
+    for paper in data[skip_n_papers:n_papers + skip_n_papers]:
         paper_object = {}
 
         uuid_base = ""
-        if paper["title"] is not None: 
+        if paper["title"] is not None:
             paper_object["title"] = paper["title"].replace('\n', ' ')
             uuid_base += paper_object["title"]
-        if paper["doi"] is not None: 
+        if paper["doi"] is not None:
             paper_object["doi"] = paper["doi"]
             uuid_base += paper["doi"]
-        if paper["journal-ref"] is not None: paper_object["journalReference"] = paper["journal-ref"]
-        if paper["id"] is not None: 
+        if paper["journal-ref"] is not None:
+            paper_object["journalReference"] = paper["journal-ref"]
+        if paper["id"] is not None:
             paper_object["arxivId"] = paper["id"]
-            uuid_base +=paper["id"]
-        if paper["submitter"] is not None: paper_object["submitter"] = paper["submitter"]
-        if paper["abstract"] is not None: paper_object["abstract"] = paper["abstract"].replace('\n', ' ')
-        if paper["comments"] is not None: paper_object["comments"] = paper["comments"]
-        if paper["report-no"] is not None: paper_object["reportNumber"] = paper["report-no"]
-        if paper["versions"] is not None: 
+            uuid_base += paper["id"]
+        if paper["submitter"] is not None:
+            paper_object["submitter"] = paper["submitter"]
+        if paper["abstract"] is not None:
+            paper_object["abstract"] = paper["abstract"].replace('\n', ' ')
+        if paper["comments"] is not None:
+            paper_object["comments"] = paper["comments"]
+        if paper["report-no"] is not None:
+            paper_object["reportNumber"] = paper["report-no"]
+        if paper["versions"] is not None:
             paper_object["versionHistory"] = str(paper["versions"]).strip('[]')
             paper_object["lastestVersion"] = paper["versions"][-1]
-        
+
         paper_uuid = generate_uuid('Paper', paper_object["title"])
 
         # try to extract year
@@ -115,11 +195,13 @@ def add_and_return_papers(client, data: list, categories_dict: dict, journals_di
 
         if paper["categories"][0] is not None:
             categories_object = []
-            for category in paper["categories"][0].split(' '): # id of category
+            for category in paper["categories"][0].split(
+                    ' '):  # id of category
                 # create beacon
                 if category not in categories_dict:
                     break
-                beacon_url = "weaviate://localhost/things/" + categories_dict[category]
+                beacon_url = "weaviate://localhost/things/" + \
+                    categories_dict[category]
                 beacon = {"beacon": beacon_url}
                 categories_object.append(beacon)
 
@@ -130,7 +212,8 @@ def add_and_return_papers(client, data: list, categories_dict: dict, journals_di
             journal_name = format_journal_name(paper["journal-ref"])
             # create beacon
             if journal_name in journals_dict:
-                beacon_url = "weaviate://localhost/things/" + journals_dict[journal_name]
+                beacon_url = "weaviate://localhost/things/" + \
+                    journals_dict[journal_name]
                 beacon = {"beacon": beacon_url}
                 paper_object['inJournal'] = [beacon]
 
@@ -143,7 +226,8 @@ def add_and_return_papers(client, data: list, categories_dict: dict, journals_di
                 if author not in authors_dict:
                     break
 
-                beacon_url = "weaviate://localhost/things/" + authors_dict[author]
+                beacon_url = "weaviate://localhost/things/" + \
+                    authors_dict[author]
                 beacon = {"beacon": beacon_url}
                 authors_object.append(beacon)
                 authors_uuid_list.append(authors_dict[author])
@@ -154,20 +238,33 @@ def add_and_return_papers(client, data: list, categories_dict: dict, journals_di
 
         batch.add_thing(paper_object, "Paper", paper_uuid)
         no_items_in_batch += 1
-        
+
         if no_items_in_batch >= batch_size:
             send_batch(client, 'Paper', batch, no_imported)
             no_imported += no_items_in_batch
             batch = weaviate.ThingsBatchRequest()
             no_items_in_batch = 0
-    
+
     if no_items_in_batch > 0:
         send_batch(client, 'Paper', batch, no_imported)
 
     time.sleep(2)
     return paper_authors_uuids_dict
 
-def add_wrotepapers_cref(client, paper_authors_uuids_dict: dict, batch_size: int=512) -> dict:
+
+def add_wrotepapers_cref(
+        client: weaviate.client.Client,
+        paper_authors_uuids_dict: dict,
+        batch_size: int = 512):
+    """[summary]
+
+    :param client: python client connection
+    :type client: weaviate.client.Client
+    :param paper_authors_uuids_dict: uuids of authors per paper to add
+    :type paper_authors_uuids_dict: dict
+    :param batch_size: number of items in a batch, defaults to 512
+    :type batch_size: int, optional
+    """
     log('Start adding crefs from Authors:wrotePapers to Papers')
 
     batch = weaviate.ReferenceBatchRequest()
@@ -177,29 +274,28 @@ def add_wrotepapers_cref(client, paper_authors_uuids_dict: dict, batch_size: int
 
     for paper, authors in paper_authors_uuids_dict.items():
         for author in authors:
-            beacon_url = "weaviate://localhost/things/" + paper
-            beacon = {"beacon": beacon_url}
-
             batch.add_reference(author, "Author", "wrotePapers", paper)
             no_items_in_batch += 1
 
         if no_items_in_batch >= batch_size:
             results = client.batch.add_references(batch)
-            for result in results: 
+            for result in results:
                 if result['result']['status'] != 'SUCCESS':
                     log(result['result'])
             no_imported += no_items_in_batch
-            log('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(no_items_in_batch, no_imported))
+            log('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(
+                no_items_in_batch, no_imported))
 
             batch = weaviate.ReferenceBatchRequest()
             no_items_in_batch = 0
-    
+
     results = client.batch.add_references(batch)
-    for result in results: 
+    for result in results:
         if result['result']['status'] != 'SUCCESS':
             log(result['result'])
     no_imported += no_items_in_batch
-    log('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(no_items_in_batch, no_imported))
-    
+    log('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(
+        no_items_in_batch, no_imported))
+
     time.sleep(2)
-    return 
+    return
