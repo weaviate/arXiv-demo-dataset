@@ -14,7 +14,7 @@ def add_and_return_journals(
         client: weaviate.client.Client,
         data: list,
         batch_size: int = 512,
-        n_papers: float = float('inf'),
+        n_papers: float = 1000000000,
         skip_n_papers: bool = False) -> dict:
     """ Adds journals of the papers to weaviate
 
@@ -24,7 +24,7 @@ def add_and_return_journals(
     :type data: list
     :param batch_size: number of items in a batch, defaults to 512
     :type batch_size: int, optional
-    :param n_papers: number of papers to import in total, defaults to float('inf')
+    :param n_papers: number of papers to import in total, defaults to 1000000000
     :type n_papers: float, optional
     :param skip_n_papers: number of papers to skip before start of import, defaults to False
     :type skip_n_papers: bool, optional
@@ -69,7 +69,7 @@ def add_and_return_authors(
         client: weaviate.client.Client,
         data: list,
         batch_size: int = 512,
-        n_papers: float = float('inf'),
+        n_papers: float = 1000000000,
         skip_n_papers: bool = False) -> dict:
     """[summary]
 
@@ -79,7 +79,7 @@ def add_and_return_authors(
     :type data: list
     :param batch_size: number of items in a batch, defaults to 512
     :type batch_size: int, optional
-    :param n_papers: number of papers to import in total, defaults to float('inf')
+    :param n_papers: number of papers to import in total, defaults to 1000000000
     :type n_papers: float, optional
     :param skip_n_papers: number of papers to skip before start of import, defaults to False
     :type skip_n_papers: bool, optional
@@ -128,7 +128,7 @@ def add_and_return_papers(
         journals_dict: dict,
         authors_dict: dict,
         batch_size: int = 512,
-        n_papers: float = float('inf'),
+        n_papers: float = 1000000000,
         skip_n_papers: bool = False) -> dict:
     """[summary]
 
@@ -144,7 +144,7 @@ def add_and_return_papers(
     :type authors_dict: dict
     :param batch_size: number of items in a batch, defaults to 512
     :type batch_size: int, optional
-    :param n_papers: number of papers to import in total, defaults to float('inf')
+    :param n_papers: number of papers to import in total, defaults to 1000000000
     :type n_papers: float, optional
     :param skip_n_papers: number of papers to skip before start of import, defaults to False
     :type skip_n_papers: bool, optional
@@ -301,6 +301,7 @@ def add_wrotepapers_cref(
     time.sleep(2)
     return
 
+
 if __name__ == "__main__":
     client = weaviate.Client("http://localhost:8080")
 
@@ -312,7 +313,7 @@ if __name__ == "__main__":
     categories_with_uuid = {}
     for category in categories_list:
         categories_with_uuid[category["name"]] = category["uuid"]
-    
+
     journals = add_and_return_journals(client, data)
     authors = add_and_return_authors(client, data)
     papers = add_and_return_papers(client, data, categories_dict=categories_with_uuid, journals_dict=journals, authors_dict=authors)

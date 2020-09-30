@@ -14,8 +14,9 @@ jobs:
       python: "3.7"
       install:
         - pip install -r requirements.txt
-      # script:
-      #   - python -m unittest test.hello_world_test
+      script:
+        - python -m unittest test.create_schema_test
+        - python -m unittest test.import_data_test
 
     - name: "3.8"
       branches:
@@ -24,5 +25,6 @@ jobs:
       python: "3.8"
       install:
         - pip install -r requirements.txt
-      # script:
-      #   - python -m unittest test.hello_world_test
+      script:
+        - python -m unittest test.create_schema_test
+        - python -m unittest test.import_data_test

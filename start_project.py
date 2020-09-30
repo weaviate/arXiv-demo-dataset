@@ -16,7 +16,7 @@ default_args = {
         'project/schema.json'),
     "weaviate": "http://localhost:8080",
     "overwrite_schema": False,
-    "n_papers": float('inf'),
+    "n_papers": 1000000000,
     "skip_n_papers": 0,
     "papers_only": False,
     "skip_journals": False,
@@ -86,7 +86,7 @@ def user_input() -> dict:
             '--n_papers',
             help='maximum number of papers to import',
             type=float,
-            default=float('inf'))
+            default=1000000000)
         parser.add_argument(
             '-snp',
             '--skip_n_papers',

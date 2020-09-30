@@ -2,6 +2,7 @@ import unittest
 import weaviate
 from project.create_schema import create_schema
 
+
 class TestCreateSchema(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -38,4 +39,5 @@ class TestCreateSchema(unittest.TestCase):
 
         class_list = schema.get("things").get("classes")
         self.assertIsNotNone(class_list)
-        self.assertEqual({'Group', 'Archive', 'Category', 'Journal', 'Author', 'Paper', 'NewClass'}, set([e.get("class") for e in class_list]))
+        self.assertEqual({'Group', 'Archive', 'Category', 'Journal', 'Author', 'Paper',
+                          'NewClass'}, set([e.get("class") for e in class_list]))

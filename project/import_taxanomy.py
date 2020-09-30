@@ -206,6 +206,24 @@ def add_groups(client: weaviate.client.Client, groups: list) -> dict:
     return groups_with_uuid
 
 
+def import_taxanomy(client: weaviate.client.Client) -> dict:
+    """ gets the taxanomy and imports groups, archives and categories
+
+    :param client: weaviate python client connection
+    :type client: weaviate.client.Client
+    :return: categories with uuids
+    :rtype: dict
+    """
+    taxanomy_dict = load_taxanomy()
+
+    groups_with_uuid = add_groups(client, taxanomy_dict["groups"])
+    archives_with_uuid = add_archives(
+        client, taxanomy_dict["archives"], groups_with_uuid)
+    categories_with_uuid = add_categories(
+        client, taxanomy_dict["categories"], archives_with_uuid)
+    return categories_with_uuid
+
+
 if __name__ == "__main__":
     client = weaviate.Client("http://localhost:8080")
 

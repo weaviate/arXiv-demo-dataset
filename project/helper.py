@@ -50,12 +50,12 @@ def send_batch(
         log("Error in batching: {}".format(e))
 
 
-def get_metadata(datafile: str, max_size: float = float('inf')) -> list:
+def get_metadata(datafile: str, max_size: float = 1000000000) -> list:
     """ converts and returns the arxiv data set from json to a list
 
     :param datafile: the json file location and name
     :type datafile: str
-    :param max_size: the maximum number of papers to import, defaults to float('inf')
+    :param max_size: the maximum number of papers to import, defaults to 1000000000
     :type max_size: float, optional
     :return: a list of paper objects with metainfo
     :rtype: list
