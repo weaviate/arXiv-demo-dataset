@@ -14,7 +14,7 @@ arguments = {
         'project/schema.json'),
     "weaviate": "http://localhost:8080",
     "overwrite_schema": False,
-    "n_papers": 10,
+    "n_papers": 1,
     "skip_n_papers": 0,
     "papers_only": False,
     "skip_journals": False,
@@ -96,7 +96,7 @@ class TestDataImport(unittest.TestCase):
         journals = import_data.add_and_return_journals(self.client, data, n_papers=1)
 
         result = self.client.query.get.things("Journal", ["name"]).do()
-        self.assertEqual(result['data']['Get']['Things']['Journal'][0]['name'], "Journal of Applied Physics, vol ")
+        self.assertEqual(result['data']['Get']['Things']['Journal'][0]['name'], "Phys.Rev.D")
 
     def test_import_authors(self):
         data = helper.get_metadata(
