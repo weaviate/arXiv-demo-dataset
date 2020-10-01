@@ -102,7 +102,7 @@ def add_categories(client: weaviate.client.Client, categories: list, archives_wi
     :rtype: dict
     """
     # add categories to weaviate
-    log('Start adding Archives')
+    log('Start adding Categories')
     batch = weaviate.ThingsBatchRequest()
 
     category_ids = []
@@ -140,8 +140,9 @@ def add_categories(client: weaviate.client.Client, categories: list, archives_wi
             batch.add_thing(extra_category, "Category", uuid)
             categories_with_uuid[extra_category["id"]] = uuid
 
-    send_batch(client, "Category", batch)
+    imported_items = send_batch(client, "Category", batch)
 
+    log('Done adding Categories')
     time.sleep(2)
     return categories_with_uuid
 
@@ -174,8 +175,9 @@ def add_archives(client: weaviate.client.Client, archives: list, groups_with_uui
         batch.add_thing(archive, "Archive", uuid)
         archives_with_uuid['archive' + archive["name"]] = uuid
 
-    send_batch(client, 'Archive', batch)
+    imported_items = send_batch(client, 'Archive', batch)
 
+    log('Done adding Archives')
     time.sleep(2)
     return archives_with_uuid
 
@@ -200,8 +202,9 @@ def add_groups(client: weaviate.client.Client, groups: list) -> dict:
         batch.add_thing(group, "Group", uuid)
         groups_with_uuid['group' + group['name']] = uuid
 
-    send_batch(client, 'Groups', batch)
+    imported_items = send_batch(client, 'Groups', batch)
 
+    log('Done adding Groups')
     time.sleep(2)
     return groups_with_uuid
 

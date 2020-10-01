@@ -1,9 +1,10 @@
+import os
 import weaviate
 import json
 import tqdm
 import re
 import time
-import os
+from dateutil import parser
 try:
     from project.helper import *
 except ModuleNotFoundError:
@@ -14,8 +15,7 @@ def add_and_return_journals(
         client: weaviate.client.Client,
         data: list,
         batch_size: int = 512,
-        n_papers: float = 1000000000,
-        skip_n_papers: bool = False) -> dict:
+        n_papers: float = 1000000000) -> dict:
     """ Adds journals of the papers to weaviate
 
     :param client: python client connection
@@ -26,8 +26,6 @@ def add_and_return_journals(
     :type batch_size: int, optional
     :param n_papers: number of papers to import in total, defaults to 1000000000
     :type n_papers: float, optional
-    :param skip_n_papers: number of papers to skip before start of import, defaults to False
-    :type skip_n_papers: bool, optional
     :return: journals with uuids
     :rtype: dict
     """
@@ -41,7 +39,7 @@ def add_and_return_journals(
 
     journals_dict = {}
 
-    for paper in data[skip_n_papers:n_papers + skip_n_papers]:
+    for paper in data:
         if paper["journal-ref"] is not None:
             journal_name = format_journal_name(paper["journal-ref"])
             journal_uuid = generate_uuid('Journal', journal_name)
@@ -53,14 +51,15 @@ def add_and_return_journals(
                 journals_dict[journal_name] = journal_uuid
 
             if no_items_in_batch >= batch_size:
-                send_batch(client, 'Journal', batch, no_imported)
-                no_imported += no_items_in_batch
+                no_imported = send_batch(client, 'Journal', batch, no_imported)
+                # no_imported += no_items_in_batch
                 batch = weaviate.ThingsBatchRequest()
                 no_items_in_batch = 0
 
     if no_items_in_batch > 0:
-        send_batch(client, 'Journal', batch, no_imported)
+        no_imported = send_batch(client, 'Journal', batch, no_imported)
 
+    log('Done adding Journals')
     time.sleep(2)
     return journals_dict
 
@@ -69,8 +68,7 @@ def add_and_return_authors(
         client: weaviate.client.Client,
         data: list,
         batch_size: int = 512,
-        n_papers: float = 1000000000,
-        skip_n_papers: bool = False) -> dict:
+        n_papers: float = 1000000000) -> dict:
     """[summary]
 
     :param client: python client connection
@@ -81,8 +79,6 @@ def add_and_return_authors(
     :type batch_size: int, optional
     :param n_papers: number of papers to import in total, defaults to 1000000000
     :type n_papers: float, optional
-    :param skip_n_papers: number of papers to skip before start of import, defaults to False
-    :type skip_n_papers: bool, optional
     :return: authods with uuids
     :rtype: dict
     """
@@ -95,7 +91,7 @@ def add_and_return_authors(
 
     authors_dict = {}
 
-    for paper in data[skip_n_papers:n_papers + skip_n_papers]:
+    for paper in data:
         if paper["authors"] is not None:
             # remove everything between parentheses (twice for recursion)
             authors = format_author_name(paper["authors"])
@@ -109,14 +105,15 @@ def add_and_return_authors(
                     authors_dict[author] = author_uuid
 
                 if no_items_in_batch >= batch_size:
-                    send_batch(client, 'Author', batch, no_imported)
-                    no_imported += no_items_in_batch
+                    no_imported = send_batch(client, 'Author', batch, no_imported)
+                    # no_imported += no_items_in_batch
                     batch = weaviate.ThingsBatchRequest()
                     no_items_in_batch = 0
 
     if no_items_in_batch > 0:
-        send_batch(client, 'Author', batch, no_imported)
+        no_imported = send_batch(client, 'Author', batch, no_imported)
 
+    log('Done adding Authors')
     time.sleep(2)
     return authors_dict
 
@@ -128,8 +125,7 @@ def add_and_return_papers(
         journals_dict: dict,
         authors_dict: dict,
         batch_size: int = 512,
-        n_papers: float = 1000000000,
-        skip_n_papers: bool = False) -> dict:
+        n_papers: float = 1000000000) -> dict:
     """[summary]
 
     :param client: python client connection
@@ -146,8 +142,6 @@ def add_and_return_papers(
     :type batch_size: int, optional
     :param n_papers: number of papers to import in total, defaults to 1000000000
     :type n_papers: float, optional
-    :param skip_n_papers: number of papers to skip before start of import, defaults to False
-    :type skip_n_papers: bool, optional
     :return: uuids of all papers with uuids the authors
     :rtype: dict
     """
@@ -160,7 +154,7 @@ def add_and_return_papers(
 
     paper_authors_uuids_dict = {}
 
-    for paper in data[skip_n_papers:n_papers + skip_n_papers]:
+    for paper in data:
         paper_object = {}
 
         uuid_base = ""
@@ -184,8 +178,24 @@ def add_and_return_papers(
         if paper["report-no"] is not None:
             paper_object["reportNumber"] = paper["report-no"]
         if paper["versions"] is not None:
-            paper_object["versionHistory"] = str(paper["versions"]).strip('[]')
-            paper_object["lastestVersion"] = paper["versions"][-1]
+            if isinstance(paper["versions"][0], str):  # older arxiv datadump files use versions in a string in one list item
+                paper_object["versionHistory"] = str(paper["versions"]).strip('[]')
+                paper_object["latestVersion"] = paper["versions"][-1]
+                uuid_base += paper_object["latestVersion"]
+            elif isinstance(paper["versions"][0], dict):  # lastest arxiv datadump file uses different version datatypes
+                latest_version_number = 0
+                version_history = []
+                for version in paper["versions"]:
+                    version_number = int(version["version"].split('v')[1])
+                    if version_number >= latest_version_number:
+                        paper_object["latestVersion"] = version["version"]
+                        try:
+                            paper_object["latestVersionCreated"] = parser.parse(version["created"]).isoformat()
+                        except Exception:
+                            pass
+                    version_history.append(version["version"])
+                paper_object["versionHistory"] = ','.join(map(str, version_history))
+                uuid_base += paper_object["latestVersion"]
 
         paper_uuid = generate_uuid('Paper', paper_object["title"])
 
@@ -241,14 +251,15 @@ def add_and_return_papers(
         no_items_in_batch += 1
 
         if no_items_in_batch >= batch_size:
-            send_batch(client, 'Paper', batch, no_imported)
-            no_imported += no_items_in_batch
+            no_imported = send_batch(client, 'Paper', batch, no_imported)
+            # no_imported += no_items_in_batch
             batch = weaviate.ThingsBatchRequest()
             no_items_in_batch = 0
 
     if no_items_in_batch > 0:
-        send_batch(client, 'Paper', batch, no_imported)
+        no_imported = send_batch(client, 'Paper', batch, no_imported)
 
+    log('Done adding Papers')
     time.sleep(2)
     return paper_authors_uuids_dict
 
@@ -283,21 +294,27 @@ def add_wrotepapers_cref(
             for result in results:
                 if result['result']['status'] != 'SUCCESS':
                     log(result['result'])
-            no_imported += no_items_in_batch
-            log('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(
-                no_items_in_batch, no_imported))
+                else:
+                    no_imported += 1
+            log('{} (out of batch of {}) new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(
+                no_imported, no_items_in_batch, no_imported))
 
             batch = weaviate.ReferenceBatchRequest()
             no_items_in_batch = 0
 
+    no_imported_lastbatch = 0
     results = client.batch.add_references(batch)
-    for result in results:
-        if result['result']['status'] != 'SUCCESS':
-            log(result['result'])
-    no_imported += no_items_in_batch
-    log('{} new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(
-        no_items_in_batch, no_imported))
+    if results is not None:
+        for result in results:
+            if result['result']['status'] != 'SUCCESS':
+                log(result['result'])
+            else:
+                no_imported_lastbatch += 1
+                no_imported += 1
+        log('{} (out of batch of {}) new wrotePapers references imported in last batch, {} total wrotePapers references imported.'.format(
+            no_imported_lastbatch, no_items_in_batch, no_imported))
 
+    log('Done adding crefs from Authors:wrotePapers to Papers')
     time.sleep(2)
     return
 

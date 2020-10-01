@@ -115,7 +115,7 @@
                         ],
                         "description": "The time and date of the latest version",
                         "index": true,
-                        "name": "lastestVersionCreated",
+                        "name": "latestVersionCreated",
                         "vectorizePropertyName": true
                     },
                     {
@@ -124,7 +124,7 @@
                         ],
                         "description": "The latest version",
                         "index": true,
-                        "name": "lastestVersion",
+                        "name": "latestVersion",
                         "vectorizePropertyName": true
                     },
                     {

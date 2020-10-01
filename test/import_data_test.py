@@ -27,8 +27,9 @@ arguments = {
 class TestDataImport(unittest.TestCase):
 
     def setUp(self) -> None:
-        create_schema.create_schema(schema='project/schema.json', overwrite=True)
-        self.client = weaviate.Client("http://localhost:8080")
+        weaviate_url = "http://localhost:8080"
+        self.client = weaviate.Client(weaviate_url)
+        create_schema.create_schema(schema='project/schema.json', weaviate_url=weaviate_url, overwrite=True)
 
     def test_load_taxanomy(self):
         taxanomy = import_taxanomy.load_taxanomy()
