@@ -296,6 +296,21 @@
                         "index": true
                     }
                 ]
+            }, {
+                "class": "NewClass",
+                "vectorizeClassName": true,
+                "description": "Description of new class",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the new class object",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
             }
         ],
         "type": "thing"

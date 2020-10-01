@@ -7,6 +7,8 @@ data/arxiv-metadata-oai.json
 .DS_Store
 .idea
 
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

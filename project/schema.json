@@ -1,0 +1,303 @@
+{
+    "actions": {
+        "classes": [],
+        "type": "action"
+    },
+    "things": {
+        "classes": [
+            {
+                "class": "Paper",
+                "vectorizeClassName": true,
+                "description": "A publication paper",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Title of the paper",
+                        "name": "title",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Digital Object Identifier of the paper",
+                        "name": "doi",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    },
+                    {
+                        "dataType": [
+                            "Journal"
+                        ],
+                        "description": "Information about the journal the paper was published in",
+                        "name": "inJournal",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    },
+                    {
+                        "dataType": [
+                            "int"
+                        ],
+                        "description": "Year of the publication in a journal",
+                        "index": true,
+                        "name": "year",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Full reference to the journal",
+                        "name": "journalReference",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "ArXiv ID to access the paper",
+                        "name": "arxivId",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Submitter of the paper",
+                        "name": "submitter",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    },
+                    {
+                        "dataType": [
+                            "text"
+                        ],
+                        "description": "Abstract text describing the summary of the paper",
+                        "name": "abstract",
+                        "index": true,
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "text"
+                        ],
+                        "description": "Comments about the paper, such as number of pages and figures",
+                        "index": true,
+                        "name": "comments",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "Category"
+                        ],
+                        "description": "Categories or tags of the paper in the ArXiv system",
+                        "index": true,
+                        "name": "hasCategories",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "A version history",
+                        "index": true,
+                        "name": "versionHistory",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "date"
+                        ],
+                        "description": "The time and date of the latest version",
+                        "index": true,
+                        "name": "latestVersionCreated",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "The latest version",
+                        "index": true,
+                        "name": "latestVersion",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "A direct link to download the PDF",
+                        "index": true,
+                        "name": "pdfLink",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "A link to the page for this paper including its abstract and further links",
+                        "index": true,
+                        "name": "link",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "Author"
+                        ],
+                        "description": "Authors of the paper",
+                        "index": true,
+                        "name": "hasAuthors",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "License of the paper",
+                        "index": true,
+                        "name": "licence",
+                        "vectorizePropertyName": true
+                    },
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Report-no of the paper",
+                        "index": true,
+                        "name": "reportNumber",
+                        "vectorizePropertyName": true
+                    }
+                ]
+            }, {
+                "class": "Author",
+                "vectorizeClassName": true,
+                "description": "An author of a published paper",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the author",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "Paper"
+                        ],
+                        "description": "Reference to the papers the author wrote",
+                        "name": "wrotePapers",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
+            }, {
+                "class": "Journal",
+                "vectorizeClassName": true,
+                "description": "A journal that publishes papers",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the journal",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
+            }, {
+                "class": "Category",
+                "vectorizeClassName": true,
+                "description": "An official ArXiv paper category or tag",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the category of tag",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "ID of the category of tag",
+                        "name": "id",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "text"
+                        ],
+                        "description": "Category description",
+                        "name": "description",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "Archive"
+                        ],
+                        "description": "Archive of the category",
+                        "name": "inArchive",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
+            }, {
+                "class": "Archive",
+                "vectorizeClassName": true,
+                "description": "Subgroups (archives) a category falls in",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the archive",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "ID of the archive",
+                        "name": "id",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }, {
+                        "dataType": [
+                            "Group"
+                        ],
+                        "description": "Group the archive falls in",
+                        "name": "inGroup",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
+            }, {
+                "class": "Group",
+                "vectorizeClassName": true,
+                "description": "Group an archive falls in",
+                "properties": [
+                    {
+                        "dataType": [
+                            "string"
+                        ],
+                        "description": "Name of the journal",
+                        "name": "name",
+                        "vectorizePropertyName": true,
+                        "index": true
+                    }
+                ]
+            }
+        ],
+        "type": "thing"
+    }
+}
