@@ -96,7 +96,7 @@ class TestDataImport(unittest.TestCase):
         journals = import_data.add_and_return_journals(self.client, data, n_papers=1)
 
         result = self.client.query.get.things("Journal", ["name"]).do()
-        self.assertEqual(result['data']['Get']['Things']['Journal'][0]['name'], "Phys.Rev.D")
+        self.assertEqual(result['data']['Get']['Things']['Journal'][0]['name'], "Journal of Applied Physics, vol ")
 
     def test_import_authors(self):
         data = helper.get_metadata(
