@@ -6,14 +6,14 @@ services:
     - --host
     - 0.0.0.0
     - --port
-    - '4041'
+    - '8080'
     - --scheme
     - http
     depends_on:
     - esvector
     image: semitechnologies/weaviate:0.22.18
     ports:
-    - 4041:4041
+    - 8080:8080
     restart: on-failure:0
     environment:
       LOG_LEVEL: debug
