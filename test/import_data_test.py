@@ -133,6 +133,6 @@ class TestDataImport(unittest.TestCase):
             imported_authors.append(author["name"])
         self.assertEqual(sorted(imported_authors), sorted(author_names))
 
-        category_uuid = categories[data[0]["categories"][0]]
+        category_uuid = categories[data[0]["categories"].split(' ')[0]]
         imported_category = result['data']['Get']['Things']['Paper'][0]['HasCategories'][0]['uuid']
         self.assertEqual(imported_category, category_uuid)
