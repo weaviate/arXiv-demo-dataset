@@ -66,7 +66,7 @@ def user_input() -> dict:
         type=str,
         default='http://localhost:8080')
     config.add_argument(
-        '-mp',
+        '-np',
         '--n_papers',
         help='maximum number of papers to import',
         type=int,

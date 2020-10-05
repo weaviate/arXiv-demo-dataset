@@ -197,17 +197,16 @@ def add_and_return_papers(
                 paper_object["versionHistory"] = ','.join(map(str, version_history))
                 uuid_base += paper_object["latestVersion"]
 
-        paper_uuid = generate_uuid('Paper', paper_object["title"])
+        paper_uuid = generate_uuid('Paper', uuid_base)
 
         # try to extract year
         if paper["id"] is not None:
             year = extract_year(paper["id"])
             paper_object["year"] = year
 
-        if paper["categories"][0] is not None:
+        if len(paper["categories"].split(' ')) >= 1:
             categories_object = []
-            for category in paper["categories"][0].split(
-                    ' '):  # id of category
+            for category in paper["categories"].split(' '):  # id of category
                 # create beacon
                 if category not in categories_dict:
                     break
