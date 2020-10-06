@@ -12,7 +12,7 @@ This repository will contain a demo using Weaviate with data and metadata from t
   | -i | --metadata_file | data/arxiv-metadata-oai-snapshot.json | location and name of the arXiv metadata json file |
   | -s | --schema | project/schema.json | location and name of the schema |
   | -w | --weaviate | http://localhost:8080 | weaviate url |
-  | -mp | --n_papers | 1000000000 | maximum number of papers to import |
+  | -np | --n_papers | 1000000000 | maximum number of papers to import |
   | -snp | --skip_n_papers | 0 | number of papers to skip before starting the import |
   | -po | --papers_only | false | skips all other data object imports except for papers if set to True, and ignores --skip_journals, --skip_authors and --skip_taxonomy |
   | -sj | --skip_journals | false | whether you want to skip the import of all the journals |
