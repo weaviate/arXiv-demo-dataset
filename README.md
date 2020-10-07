@@ -30,6 +30,3 @@ If you want to import the whole arXiv dataset of 2.65GB, make sure you have enou
 | Branch   | Status        |
 | -------- |:-------------:|
 | Master   | [![Build Status](https://travis-ci.com/semi-technologies/weaviate-python-client.svg?token=1qdvi3hJanQcWdqEstmy&branch=master)](https://travis-ci.com/semi-technologies/weaviate-python-client)
-
-## Roadmap
-A more stable version is coming soon!
