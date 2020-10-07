@@ -23,7 +23,7 @@ This repository will contain a demo using Weaviate with data and metadata from t
   | -bs | --batch_size | 512 | maximum number of data objects to be sent in one batch |
 
 ## Usage notes
-If you want to import the whole arXiv dataset of 2.65GB, make sure you have enough memory available in your environment (and Docker setup). In addition, set the `--timeout` parameter to at least 50, to avoid batches to fail because of longer read and write times.
+If you want to import the whole arXiv dataset of 2.65GB, make sure you have enough memory resources available in your environment (and Docker setup, I allocated 200GB for the Docker image size). In addition, set the `--timeout` parameter to at least 50, to avoid batches to fail because of longer read and write times.
 
 ## Build Status
 
