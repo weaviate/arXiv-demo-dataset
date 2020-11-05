@@ -2,6 +2,8 @@
 
 This repository will contain a demo using Weaviate with data and metadata from the [arXiv dataset](https://www.kaggle.com/Cornell-University/arxiv).
 
+The code is tested with Python version 3.8.5. 
+
 ## Steps to set up:
 1. Spin up a default Weaviate instance with docker-compose (see https://www.semi.technology/documentation/weaviate/current/getting-started/installation.html#docker-compose).
 2. Run `python start_project.py`, with the following optional arguments. If a config file (`-cf CONFIG_FILE, --config_file CONFIG_FILE`) is given, all other parameters are ignored:
