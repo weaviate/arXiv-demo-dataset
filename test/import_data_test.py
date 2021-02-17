@@ -27,7 +27,7 @@ arguments = {
 class TestDataImport(unittest.TestCase):
 
     def setUp(self) -> None:
-        weaviate_url = "http://localhost:8080"
+        weaviate_url = "https://arxivtest.semi.network"
         self.client = weaviate.Client(weaviate_url)
         create_schema.create_schema(schema='project/schema.json', weaviate_url=weaviate_url, overwrite=True)
 
@@ -45,33 +45,31 @@ class TestDataImport(unittest.TestCase):
         taxanomy = import_taxanomy.load_taxanomy()
 
         groups_with_uuid = import_taxanomy.add_groups(self.client, taxanomy["groups"])
-        groups_added = self.client.query.aggregate.things('Group').with_fields('meta { count }').do()
-        self.assertEqual(groups_added['data']['Aggregate']['Things']['Group'][0]['meta']['count'], len(taxanomy['groups']))
+        groups_added = self.client.query.aggregate('Group').with_fields('meta { count }').do()
+        self.assertEqual(groups_added['data']['Aggregate']['Group'][0]['meta']['count'], len(taxanomy['groups']))
 
         archives_with_uuid = import_taxanomy.add_archives(
             self.client, taxanomy["archives"], groups_with_uuid)
-        groups_added = self.client.query.aggregate.things('Archive').with_fields('meta { count }').do()
-        self.assertEqual(groups_added['data']['Aggregate']['Things']['Archive'][0]['meta']['count'], len(taxanomy['archives']))
+        groups_added = self.client.query.aggregate('Archive').with_fields('meta { count }').do()
+        self.assertEqual(groups_added['data']['Aggregate']['Archive'][0]['meta']['count'], len(taxanomy['archives']))
 
         categories_with_uuid = import_taxanomy.add_categories(
             self.client, taxanomy["categories"], archives_with_uuid)
-        groups_added = self.client.query.aggregate.things('Category').with_fields('meta { count }').do()
-        self.assertGreaterEqual(groups_added['data']['Aggregate']['Things']['Category'][0]['meta']['count'], len(taxanomy['categories']))
+        groups_added = self.client.query.aggregate('Category').with_fields('meta { count }').do()
+        self.assertGreaterEqual(groups_added['data']['Aggregate']['Category'][0]['meta']['count'], len(taxanomy['categories']))
 
         # test cref
         query = """{
             Get {
-                Things {
-                    Category(where: {
-                        path: ["name"],
-                        operator: Equal,
-                        valueString: "Artificial Intelligence"
-                    }) {
-                        name
-                        InArchive {
-                            ... on Archive {
-                                name
-                            }
+                Category(where: {
+                    path: ["name"],
+                    operator: Equal,
+                    valueString: "Artificial Intelligence"
+                }) {
+                    name
+                    inArchive {
+                        ... on Archive {
+                            name
                         }
                     }
                 }
@@ -79,7 +77,7 @@ class TestDataImport(unittest.TestCase):
         }"""
 
         query_result = self.client.query.raw(query)
-        self.assertEqual(query_result['data']['Get']['Things']['Category'][0]['InArchive'][0]['name'], "Computer Science")
+        self.assertEqual(query_result['data']['Get']['Category'][0]['inArchive'][0]['name'], "Computer Science")
 
     def test_get_data(self):
         data = helper.get_metadata(
@@ -95,8 +93,8 @@ class TestDataImport(unittest.TestCase):
             max_size=arguments["n_papers"])
         journals = import_data.add_and_return_journals(self.client, data, n_papers=1)
 
-        result = self.client.query.get.things("Journal", ["name"]).do()
-        self.assertEqual(result['data']['Get']['Things']['Journal'][0]['name'], "Phys.Rev.D")
+        result = self.client.query.get("Journal", ["name"]).do()
+        self.assertEqual(result['data']['Get']['Journal'][0]['name'], "Phys.Rev.D")
 
     def test_import_authors(self):
         data = helper.get_metadata(
@@ -105,9 +103,9 @@ class TestDataImport(unittest.TestCase):
         authors = import_data.add_and_return_authors(self.client, data, n_papers=1)
         author_names = helper.format_author_name(data[0]["authors"])
 
-        result = self.client.query.get.things("Author", ["name"]).do()
+        result = self.client.query.get("Author", ["name"]).do()
         imported_authors = []
-        for author in result['data']['Get']['Things']['Author']:
+        for author in result['data']['Get']['Author']:
             imported_authors.append(author["name"])
 
         self.assertEqual(sorted(imported_authors), sorted(author_names))
@@ -121,18 +119,18 @@ class TestDataImport(unittest.TestCase):
         authors = import_data.add_and_return_authors(self.client, data, n_papers=1)
         papers = import_data.add_and_return_papers(self.client, data, categories, journals, authors, n_papers=1)
 
-        query = "{Get {Things {Paper {title HasCategories {... on Category {uuid}} HasAuthors {... on Author {name}}}}}}"
+        query = "{Get {Paper {title hasCategories {... on Category {_additional{id}}} hasAuthors {... on Author {name}}}}}"
         result = self.client.query.raw(query)
 
-        imported_title = result['data']['Get']['Things']['Paper'][0]['title']
+        imported_title = result['data']['Get']['Paper'][0]['title']
         self.assertEqual(imported_title, data[0]['title'].replace('\n', ' '))
 
         author_names = helper.format_author_name(data[0]["authors"])
         imported_authors = []
-        for author in result['data']['Get']['Things']['Paper'][0]['HasAuthors']:
+        for author in result['data']['Get']['Paper'][0]['hasAuthors']:
             imported_authors.append(author["name"])
         self.assertEqual(sorted(imported_authors), sorted(author_names))
 
         category_uuid = categories[data[0]["categories"].split(' ')[0]]
-        imported_category = result['data']['Get']['Things']['Paper'][0]['HasCategories'][0]['uuid']
+        imported_category = result['data']['Get']['Paper'][0]['hasCategories'][0]['_additional']["id"]
         self.assertEqual(imported_category, category_uuid)

@@ -15,7 +15,7 @@ class TestCreateSchema(unittest.TestCase):
         schema = self.client.schema.get()
         self.assertIsNotNone(schema)
 
-        class_list = schema.get("things").get("classes")
+        class_list = schema.get("classes")
         self.assertIsNotNone(class_list)
         self.assertEqual({'Group', 'Archive', 'Category', 'Journal', 'Author', 'Paper'}, set([e.get("class") for e in class_list]))
 
@@ -26,7 +26,7 @@ class TestCreateSchema(unittest.TestCase):
         schema = self.client.schema.get()
         self.assertIsNotNone(schema)
 
-        class_list = schema.get("things").get("classes")
+        class_list = schema.get("classes")
         self.assertIsNotNone(class_list)
         self.assertEqual({'Group', 'Archive', 'Category', 'Journal', 'Author', 'Paper'}, set([e.get("class") for e in class_list]))
 
@@ -37,7 +37,7 @@ class TestCreateSchema(unittest.TestCase):
         schema = self.client.schema.get()
         self.assertIsNotNone(schema)
 
-        class_list = schema.get("things").get("classes")
+        class_list = schema.get("classes")
         self.assertIsNotNone(class_list)
         self.assertEqual({'Group', 'Archive', 'Category', 'Journal', 'Author', 'Paper',
                           'NewClass'}, set([e.get("class") for e in class_list]))
