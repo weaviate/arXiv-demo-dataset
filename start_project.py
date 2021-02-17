@@ -148,8 +148,7 @@ if __name__ == "__main__":
     helper.log('Starting project build')
 
     timeout = (2, arguments["timeout"])
-    config = weaviate.ClientConfig(timeout_config=timeout)
-    client = weaviate.Client(arguments["weaviate"], client_config=config)
+    client = weaviate.Client(arguments["weaviate"], timeout_config=timeout)
     if not client.is_ready():
         raise Exception(
             'Weaviate on url {} is not ready, please check the url and try again'.format(
@@ -177,7 +176,7 @@ if __name__ == "__main__":
             archives_with_uuids_dict=archives_with_uuid)
     else:  # get categories from weaviate
         result = client.query.get.things("Category", ["name", "uuid"]).do()
-        categories_list = result["data"]["Get"]["Things"]["Category"]
+        categories_list = result["data"]["Get"]["Category"]
         categories_with_uuid = {}
         for category in categories_list:
             categories_with_uuid[category["name"]] = category["uuid"]
@@ -196,7 +195,7 @@ if __name__ == "__main__":
             n_papers=arguments["n_papers"])
     else:  # get journals from weaviate
         result = client.query.get.things("Journal", ["name", "uuid"]).do()
-        journals_list = result["data"]["Get"]["Things"]["Journal"]
+        journals_list = result["data"]["Get"]["Journal"]
         journals = {}
         for journal in journals_list:
             journals[journal["name"]] = journal["uuid"]
@@ -209,7 +208,7 @@ if __name__ == "__main__":
             n_papers=arguments["n_papers"])
     else:  # get journals from weaviate
         result = client.query.get.things("Author", ["name", "uuid"]).do()
-        authors_list = result["data"]["Get"]["Things"]["Author"]
+        authors_list = result["data"]["Get"]["Author"]
         authors = {}
         for author in authors_list:
             authors[category["name"]] = author["uuid"]

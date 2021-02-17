@@ -1,5 +1,6 @@
 # ignore the bigger dataset
 data/arxiv-metadata-oai.json
+data/arxiv-metadata-oai-snapshot.json
 
 .ipynb_checkpoints
 

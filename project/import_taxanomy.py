@@ -103,7 +103,7 @@ def add_categories(client: weaviate.client.Client, categories: list, archives_wi
     """
     # add categories to weaviate
     log('Start adding Categories')
-    batch = weaviate.ThingsBatchRequest()
+    batch = weaviate.ObjectsBatchRequest()
 
     category_ids = []
 
@@ -113,12 +113,12 @@ def add_categories(client: weaviate.client.Client, categories: list, archives_wi
         category_copy = copy.deepcopy(category)
         category_uuid = category_copy["name"]
         uuid = generate_uuid('Category', category_uuid)
-        archive_beacon = "weaviate://localhost/things/" + \
+        archive_beacon = "weaviate://localhost/" + \
             archives_with_uuids_dict['archive' + category['inArchive']]
         category_copy['inArchive'] = [{
             "beacon": archive_beacon
         }]
-        batch.add_thing(category_copy, "Category", uuid)
+        batch.add(category_copy, "Category", uuid)
         categories_with_uuid[category_copy["id"]] = uuid
 
         # also create archive for the category archive if not exist yet (e.g.
@@ -137,7 +137,7 @@ def add_categories(client: weaviate.client.Client, categories: list, archives_wi
                 "beacon": archive_beacon
             }]
             uuid = generate_uuid('ExtraCategory', extra_category["name"])
-            batch.add_thing(extra_category, "Category", uuid)
+            batch.add(extra_category, "Category", uuid)
             categories_with_uuid[extra_category["id"]] = uuid
 
     imported_items = send_batch(client, "Category", batch)
@@ -162,17 +162,17 @@ def add_archives(client: weaviate.client.Client, archives: list, groups_with_uui
     # add archives to weaviate
     log('Start adding Archives')
 
-    batch = weaviate.ThingsBatchRequest()
+    batch = weaviate.ObjectsBatchRequest()
 
     archives_with_uuid = {}
     for archive in archives:
         uuid = generate_uuid('Archive', archive["name"])
-        group_beacon = "weaviate://localhost/things/" + \
+        group_beacon = "weaviate://localhost/" + \
             groups_with_uuids_dict['group' + archive['inGroup']]
         archive['inGroup'] = [{
             "beacon": group_beacon
         }]
-        batch.add_thing(archive, "Archive", uuid)
+        batch.add(archive, "Archive", uuid)
         archives_with_uuid['archive' + archive["name"]] = uuid
 
     imported_items = send_batch(client, 'Archive', batch)
@@ -195,11 +195,11 @@ def add_groups(client: weaviate.client.Client, groups: list) -> dict:
     # add groups to weaviate
     log('Start adding Groups')
 
-    batch = weaviate.ThingsBatchRequest()
+    batch = weaviate.ObjectsBatchRequest()
     groups_with_uuid = {}
     for group in groups:
         uuid = generate_uuid('Group', group['name'])
-        batch.add_thing(group, "Group", uuid)
+        batch.add(group, "Group", uuid)
         groups_with_uuid['group' + group['name']] = uuid
 
     imported_items = send_batch(client, 'Groups', batch)

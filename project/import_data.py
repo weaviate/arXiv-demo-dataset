@@ -32,7 +32,7 @@ def add_and_return_journals(
     # add groups to weaviate
     log('Start adding Journals')
 
-    batch = weaviate.ThingsBatchRequest()
+    batch = weaviate.ObjectsBatchRequest()
 
     no_items_in_batch = 0
     no_imported = 0
@@ -45,7 +45,7 @@ def add_and_return_journals(
             journal_uuid = generate_uuid('Journal', journal_name)
 
             if journal_name not in journals_dict:
-                batch.add_thing({"name": journal_name},
+                batch.add({"name": journal_name},
                                 "Journal", journal_uuid)
                 no_items_in_batch += 1
                 journals_dict[journal_name] = journal_uuid
@@ -53,7 +53,7 @@ def add_and_return_journals(
             if no_items_in_batch >= batch_size:
                 no_imported = send_batch(client, 'Journal', batch, no_imported)
                 # no_imported += no_items_in_batch
-                batch = weaviate.ThingsBatchRequest()
+                batch = weaviate.ObjectsBatchRequest()
                 no_items_in_batch = 0
 
     if no_items_in_batch > 0:
@@ -84,7 +84,7 @@ def add_and_return_authors(
     """
     log('Start adding Authors')
 
-    batch = weaviate.ThingsBatchRequest()
+    batch = weaviate.ObjectsBatchRequest()
 
     no_items_in_batch = 0
     no_imported = 0
@@ -100,14 +100,14 @@ def add_and_return_authors(
                 if author not in authors_dict:
                     # add author to batch
                     author_uuid = generate_uuid('Author', author)
-                    batch.add_thing({"name": author}, "Author", author_uuid)
+                    batch.add({"name": author}, "Author", author_uuid)
                     no_items_in_batch += 1
                     authors_dict[author] = author_uuid
 
                 if no_items_in_batch >= batch_size:
                     no_imported = send_batch(client, 'Author', batch, no_imported)
                     # no_imported += no_items_in_batch
-                    batch = weaviate.ThingsBatchRequest()
+                    batch = weaviate.ObjectsBatchRequest()
                     no_items_in_batch = 0
 
     if no_items_in_batch > 0:
@@ -147,7 +147,7 @@ def add_and_return_papers(
     """
     log('Start adding Papers')
 
-    batch = weaviate.ThingsBatchRequest()
+    batch = weaviate.ObjectsBatchRequest()
 
     no_items_in_batch = 0
     no_imported = 0
@@ -210,7 +210,7 @@ def add_and_return_papers(
                 # create beacon
                 if category not in categories_dict:
                     break
-                beacon_url = "weaviate://localhost/things/" + \
+                beacon_url = "weaviate://localhost/" + \
                     categories_dict[category]
                 beacon = {"beacon": beacon_url}
                 categories_object.append(beacon)
@@ -222,7 +222,7 @@ def add_and_return_papers(
             journal_name = format_journal_name(paper["journal-ref"])
             # create beacon
             if journal_name in journals_dict:
-                beacon_url = "weaviate://localhost/things/" + \
+                beacon_url = "weaviate://localhost/" + \
                     journals_dict[journal_name]
                 beacon = {"beacon": beacon_url}
                 paper_object['inJournal'] = [beacon]
@@ -236,7 +236,7 @@ def add_and_return_papers(
                 if author not in authors_dict:
                     break
 
-                beacon_url = "weaviate://localhost/things/" + \
+                beacon_url = "weaviate://localhost/" + \
                     authors_dict[author]
                 beacon = {"beacon": beacon_url}
                 authors_object.append(beacon)
@@ -246,13 +246,13 @@ def add_and_return_papers(
                 paper_object['hasAuthors'] = authors_object
                 paper_authors_uuids_dict[paper_uuid] = authors_uuid_list
 
-        batch.add_thing(paper_object, "Paper", paper_uuid)
+        batch.add(paper_object, "Paper", paper_uuid)
         no_items_in_batch += 1
 
         if no_items_in_batch >= batch_size:
             no_imported = send_batch(client, 'Paper', batch, no_imported)
             # no_imported += no_items_in_batch
-            batch = weaviate.ThingsBatchRequest()
+            batch = weaviate.ObjectsBatchRequest()
             no_items_in_batch = 0
 
     if no_items_in_batch > 0:
@@ -285,11 +285,11 @@ def add_wrotepapers_cref(
 
     for paper, authors in paper_authors_uuids_dict.items():
         for author in authors:
-            batch.add_reference(author, "Author", "wrotePapers", paper)
+            batch.add(author, "Author", "wrotePapers", paper)
             no_items_in_batch += 1
 
         if no_items_in_batch >= batch_size:
-            results = client.batch.add_references(batch)
+            results = client.batch.create(batch)
             for result in results:
                 if result['result']['status'] != 'SUCCESS':
                     log(result['result'])
@@ -302,7 +302,7 @@ def add_wrotepapers_cref(
             no_items_in_batch = 0
 
     no_imported_lastbatch = 0
-    results = client.batch.add_references(batch)
+    results = client.batch.create(batch)
     if results is not None:
         for result in results:
             if result['result']['status'] != 'SUCCESS':
@@ -324,8 +324,8 @@ if __name__ == "__main__":
     data = get_metadata('./data/arxiv-metadata-oai.json')
 
     # get categories
-    result = client.query.get.things("Category", ["name", "uuid"]).do()
-    categories_list = result["data"]["Get"]["Things"]["Category"]
+    result = client.query.get("Category", ["name", "uuid"]).do()
+    categories_list = result["data"]["Get"]["Category"]
     categories_with_uuid = {}
     for category in categories_list:
         categories_with_uuid[category["name"]] = category["uuid"]

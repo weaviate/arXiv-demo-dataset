@@ -25,7 +25,7 @@ def generate_uuid(class_name: str, identifier: str,
 def send_batch(
         client: weaviate.client.Client,
         classname: str,
-        batch: weaviate.batch.requests.ThingsBatchRequest,
+        batch: weaviate.batch.requests.ObjectsBatchRequest,
         total_imported: int = 0):
     """[summary]
 
@@ -39,7 +39,7 @@ def send_batch(
     :type total_imported: int, optional
     """
     try:
-        results = client.batch.create_things(batch)
+        results = client.batch.create(batch)
         imported_without_errors = 0
         for result in results:
             if result['result']:
