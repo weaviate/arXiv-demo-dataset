@@ -3,48 +3,44 @@
 ## Display 25 random papers with some metadata
 ```graphql
 {
-    Get {
-        Things {
-            Paper (limit: 25) {
-                title
-                abstract
-                year
-                InJournal {
-                    ... on Journal {
-                        name
-                    }
-                }
-                HasAuthors {
-                    ... on Author {
-                        name
-                    }
-                }
-                HasCategories {
-                    ... on Category {
-                        name
-                    }
-                }
-            }
+  Get {
+    Paper(limit: 25) {
+      title
+      abstract
+      year
+      inJournal {
+        ... on Journal {
+          name
         }
+      }
+      hasAuthors {
+        ... on Author {
+          name
+        }
+      }
+      hasCategories {
+        ... on Category {
+          name
+        }
+      }
     }
+  }
 }
 ```
 
 ## Get categories
 ```graphql
 {
-    Get {
-        Things {
-            Category (limit: 25) {
-                name
-                InArchive {
-                    ... on Archive {
-                        name
-                    }
-                }
-            }
+  Get {
+    Category(limit: 25) {
+      name
+      inArchive {
+        ... on Archive {
+          name
         }
+      }
     }
+  }
 }
 ```
 
@@ -54,14 +50,12 @@
 ```graphql
 {
   Aggregate {
-    Things {
-      Paper (groupBy:["HasCategories", "Category", "name"]) {
-        meta {
-          count
-        }
-        groupedBy {
-          value
-        }
+    Paper (groupBy:["HasCategories", "Category", "name"]) {
+      meta {
+        count
+      }
+      groupedBy {
+        value
       }
     }
   }
@@ -72,15 +66,14 @@
 ```graphql
 {
   Aggregate {
-    Things {
-      Paper (where: {
-        path: ["HasCategories", "Category", "name"]
-        operator:Equal
-        valueString: "Artificial Intelligence"
-      }){
-        meta {
-          count
-        }
+    Paper(
+      where: {
+        path: ["hasCategories", "Category", "name"],
+        operator: Equal,
+        valueString: "Computational Geometry"}
+    ) {
+      meta {
+        count
       }
     }
   }
@@ -90,65 +83,62 @@
 ## If a category is selected, the papers can be found like this:
 ```graphql
 {
-    Get {
-        Things {
-            Paper (
-                limit: 25,
-                where: {
-                    path: ["HasCategories", "Category", "name"],
-                    operator: Equal,
-                    valueString: "Artificial Intelligence"
-                }) {
-                title
-                abstract
-                year
-                InJournal {
-                    ... on Journal {
-                        name
-                    }
-                }
-                HasAuthors {
-                    ... on Author {
-                        name
-                    }
-                }
-            }
+  Get {
+    Paper(
+      limit: 25
+      where: {
+        path: ["hasCategories", "Category", "name"],
+        operator: Equal,
+        valueString: "Computational Geometry"}
+    ) {
+      title
+      abstract
+      year
+      inJournal {
+        ... on Journal {
+          name
         }
+      }
+      hasAuthors {
+        ... on Author {
+          name
+        }
+      }
     }
+  }
 }
 ```
 
 ## With search bar:
 ```graphql
 {
-    Get {
-        Things {
-            Paper (
-                limit: 25,
-                where: {
-                    path: ["HasCategories", "Category", "name"],
-                    operator: Equal,
-                    valueString: "Artificial Intelligence"
-                },
-                explore: {
-                    concepts: ["neural network"], 
-                    certainty: 0.5
-                }) {
-                title
-                abstract
-                year
-                InJournal {
-                    ... on Journal {
-                        name
-                    }
-                }
-                HasAuthors {
-                    ... on Author {
-                        name
-                    }
-                }
-            }
+  Get {
+    Paper (
+      limit:25,
+      where : {
+        path: ["hasCategories", "Category", "name"]
+        operator:Equal
+        valueString:"Computational Geometry"
+      }
+      nearText: {
+        concepts: ["robotics"]
+        certainty:0.5
+      }
+    ) {
+      title
+      abstract
+      year
+      inJournal {
+        ... on Journal {
+          name
         }
+      }
+      hasAuthors {
+        ... on Author {
+          name
+        }
+      }
     }
+  }
 }
 ```
