@@ -1,0 +1,1332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head><title>Category Taxonomy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="https://static.arxiv.org/static/browse/0.3.2.6/images/icons/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://static.arxiv.org/static/browse/0.3.2.6/css/arXiv.css?v=20200727" />
+  <link rel="stylesheet" type="text/css" media="print" href="https://static.arxiv.org/static/browse/0.3.2.6/css/arXiv-print.css?v=20200611" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://static.arxiv.org/static/browse/0.3.2.6/css/browse_search.css" />
+  <script language="javascript" src="https://static.arxiv.org/static/browse/0.3.2.6/js/accordion.js" /></script>
+  <!-- Pendo -->
+  <script>
+  (function(apiKey){
+      (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
+      v=['initialize','identify','updateOptions','pageLoad','track'];for(w=0,x=v.length;w<x;++w)(function(m){
+          o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
+          y=e.createElement(n);y.async=!0;y.src='https://content.analytics.arxiv.org/agent/static/'+apiKey+'/pendo.js';
+          z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
+
+          // Call this whenever information about your visitors becomes available
+          // Please use Strings, Numbers, or Bools for value types.
+          pendo.initialize({
+              visitor: {
+                  
+
+                  
+                  continent:       'EU',
+                  
+
+                  
+                  country:         'NL',
+                  
+
+                  
+                  subnational:     'None',
+                  
+
+                  
+                  city:            'Mijdrecht',
+                  
+
+                  id:              'VISITOR-UNIQUE-ID'
+                  // email:        // Recommended if using Pendo Feedback, or NPS Email
+                  // full_name:    // Recommended if using Pendo Feedback
+                  // role:         // Optional
+
+                  // You can add any additional visitor level key-values here,
+                  // as long as it's not one of the above reserved names.
+              },
+
+              account: {
+                  
+
+                  id:              'ACCOUNT-UNIQUE-ID'
+
+                  // name:         // Optional
+                  // is_paying:    // Recommended if using Pendo Feedback
+                  // monthly_value:// Recommended if using Pendo Feedback
+                  // planLevel:    // Optional
+                  // planPrice:    // Optional
+                  // creationDate: // Optional
+
+                  // You can add any additional account level key-values here,
+                  // as long as it's not one of the above reserved names.
+              }
+          });
+  })('d6494389-b427-4103-7c76-03182ecc8e60');
+  </script>
+  </head>
+
+<body  class="with-cu-identity">
+  
+<aside class="slider-wrapper" style="display:none">
+  <a class="close-slider" href="#"><img src="https://static.arxiv.org/static/browse/0.3.2.6/images/icons/close-slider.png" alt="close this message"></a>
+  <div class="copy-donation">
+    <h1>Donate to arXiv</h1>
+    <p>
+      Please join the <a href="https://simonsfoundation.org">Simons Foundation</a> and our
+      generous <a href="https://arxiv.org/about/ourmembers">member organizations</a>
+      in supporting arXiv during our giving campaign September 23-27. 100% of your contribution will fund
+      improvements and new initiatives to benefit arXiv's global scientific community.
+    </p>
+  </div>
+  <div class="amount-donation">
+    <div class="wrapper">
+      <div class="donate-cta"><a class="banner_link" href="https://bit.ly/arXivDONATE1"><b>DONATE</b></a>
+        <p>[secure site, no need to create account]</p>
+      </div>
+    </div>
+  </div>
+</aside><div class="flex-wrap-footer">
+    <header>
+      <a href="#content" class="is-sr-only">Skip to main content</a>
+      <!-- start desktop header -->
+      <div class="columns is-vcentered is-hidden-mobile" id="cu-identity">
+        <div class="column" id="cu-logo">
+          <a href="https://www.cornell.edu/"><img src="https://static.arxiv.org/static/browse/0.3.2.6/images/icons/cu/cornell-reduced-white-SMALL.svg" alt="Cornell University" /></a>
+        </div>
+
+        <!-- timeboxed column --><!-- /end timeboxed column -->
+
+        <div class="column" id="support-ack">
+          <a href="https://confluence.cornell.edu/x/ALlRF">We gratefully acknowledge support from<br/>the Simons Foundation and member institutions.</a>
+        </div>
+      </div>
+
+      <div id="header" class="is-hidden-mobile">
+        <a aria-hidden="true" href="{url_path('ignore_me')}"></a>
+        <h1><a href="/">arXiv.org</a> &gt; category taxonomy</h1>
+        
+        
+  <div class="search-block level-right">
+    <form class="level-item mini-search" method="GET" action="https://arxiv.org/search">
+      <div class="field has-addons">
+        <div class="control">
+          <input class="input is-small" type="text" name="query" placeholder="Search..." aria-label="Search term or terms" />
+          <p class="help"><a href="https://arxiv.org/help">Help</a> | <a href="https://arxiv.org/search/advanced">Advanced Search</a></p>
+        </div>
+        <div class="control">
+          <div class="select is-small">
+            <select name="searchtype" aria-label="Field to search">
+              <option value="all" selected="selected">All fields</option>
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+              <option value="abstract">Abstract</option>
+              <option value="comments">Comments</option>
+              <option value="journal_ref">Journal reference</option>
+              <option value="acm_class">ACM classification</option>
+              <option value="msc_class">MSC classification</option>
+              <option value="report_num">Report number</option>
+              <option value="paper_id">arXiv identifier</option>
+              <option value="doi">DOI</option>
+              <option value="orcid">ORCID</option>
+              <option value="author_id">arXiv author ID</option>
+              <option value="help">Help pages</option>
+              <option value="full_text">Full text</option>
+            </select>
+          </div>
+        </div>
+        <input type="hidden" name="source" value="header">
+        <button class="button is-small is-cul-darker">Search</button>
+      </div>
+    </form>
+  </div>
+       
+     </div><!-- /end desktop header -->
+
+      <div class="mobile-header">
+        <div class="columns is-mobile">
+          <div class="column logo-arxiv"><a href="https://arxiv.org/"><img src="https://static.arxiv.org/static/browse/0.3.2.6/images/arxiv-logo.png" alt="arXiv" /></a></div>
+          <div class="column logo-cornell"><a href="https://www.cornell.edu/">
+            <picture>
+              <source media="(min-width: 501px)"
+                srcset="https://static.arxiv.org/static/browse/0.3.2.6/images/icons/cu/cornell-reduced-white-SMALL.svg  400w"
+                sizes="400w" />
+              <source srcset="https://static.arxiv.org/static/browse/0.3.2.6/images/icons/cu/cornell_seal_simple_black.svg 2x" />
+              <img src="https://static.arxiv.org/static/browse/0.3.2.6/images/icons/cu/cornell-reduced-white-SMALL.svg" alt="Cornell University Logo" />
+            </picture>
+          </a></div>
+          <div class="column nav" id="toggle-container" role="menubar">
+            <button class="toggle-control"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-white"><title>open search</title><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></button>
+            <div class="mobile-toggle-block toggle-target">
+              <form class="mobile-search-form" method="GET" action="https://arxiv.org/search">
+                <div class="field has-addons">
+                  <input class="input" type="text" name="query" placeholder="Search..." aria-label="Search term or terms" />
+                  <input type="hidden" name="source" value="header">
+                  <input type="hidden" name="searchtype" value="all">
+                  <button class="button">GO</button>
+                </div>
+              </form>
+            </div>
+
+            <button class="toggle-control"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon filter-white" role="menu"><title>open navigation menu</title><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/ ></svg></button>
+            <div class="mobile-toggle-block toggle-target">
+              <nav class="mobile-menu" aria-labelledby="mobilemenulabel">
+                <h2 id="mobilemenulabel">quick links</h2>
+                <ul>
+                    
+                    <li><a href="https://arxiv.org/login">Login</a></li>
+                    
+                    <li><a href="https://arxiv.org/help">Help Pages</a></li>
+                    <li><a href="https://arxiv.org/about">About</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div><!-- /end mobile-header -->
+    </header>
+
+    <main>
+      
+      
+      <div id="content">
+        
+<div class="columns">
+  <div class="column">
+    <h1>arXiv<br><span style="color:grey;">Category Taxonomy</span></h1>
+  </div>
+  <div class="column guide is-three-fifths">
+    <h2 style="margin:0 0 .5em 0;">Classification guide</h2>
+    <div class="large-data-list" style="border-bottom: 0px;margin:0;">
+      <h2 style="padding-left:1em;">Group Name</h2>
+      <div class="columns divided" style="padding-left:1em;">
+        <div class="column" style="border-top:0px;">
+          <h3>Archive Name (Archive ID)</h3>
+          <p>omitted if group consists of a single archive with the same name as the group</p>
+        </div>
+        <div class="column">
+          <h4>Category Name<br>
+            <strong>(Category ID)</strong>
+          </h4>
+        </div>
+        <div class="column">
+          <p>Category description if available</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="category_taxonomy_list" class="large-data-list"><h2 class="accordion-head">Computer Science</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.AI <span>(Artificial Intelligence)</span></h4>
+          </div>
+          <div class="column"><p>Covers all areas of AI except Vision, Robotics, Machine Learning, Multiagent Systems, and Computation and Language (Natural Language Processing), which have separate subject areas. In particular, includes Expert Systems, Theorem Proving (although this may overlap with Logic in Computer Science), Knowledge Representation, Planning, and Uncertainty in AI. Roughly includes material in ACM Subject Classes I.2.0, I.2.1, I.2.3, I.2.4, I.2.8, and I.2.11.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.AR <span>(Hardware Architecture)</span></h4>
+          </div>
+          <div class="column"><p>Covers systems organization and hardware architecture. Roughly includes material in ACM Subject Classes C.0, C.1, and C.5.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CC <span>(Computational Complexity)</span></h4>
+          </div>
+          <div class="column"><p>Covers models of computation, complexity classes, structural complexity, complexity tradeoffs, upper and lower bounds. Roughly includes material in ACM Subject Classes F.1 (computation by abstract devices), F.2.3 (tradeoffs among complexity measures), and F.4.3 (formal languages), although some material in formal languages may be more appropriate for Logic in Computer Science. Some material in F.2.1 and F.2.2, may also be appropriate here, but is more likely to have Data Structures and Algorithms as the primary subject area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CE <span>(Computational Engineering, Finance, and Science)</span></h4>
+          </div>
+          <div class="column"><p>Covers applications of computer science to the mathematical modeling of complex systems in the fields of science, engineering, and finance. Papers here are interdisciplinary and applications-oriented, focusing on techniques and tools that enable challenging computational simulations to be performed, for which the use of supercomputers or distributed computing platforms is often required. Includes material in ACM Subject Classes J.2, J.3, and J.4 (economics).</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CG <span>(Computational Geometry)</span></h4>
+          </div>
+          <div class="column"><p>Roughly includes material in ACM Subject Classes I.3.5 and F.2.2.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CL <span>(Computation and Language)</span></h4>
+          </div>
+          <div class="column"><p>Covers natural language processing. Roughly includes material in ACM Subject Class I.2.7. Note that work on artificial languages (programming languages, logics, formal systems) that does not explicitly address natural-language issues broadly construed (natural-language processing, computational linguistics, speech, text retrieval, etc.) is not appropriate for this area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CR <span>(Cryptography and Security)</span></h4>
+          </div>
+          <div class="column"><p>Covers all areas of cryptography and security including authentication, public key cryptosytems, proof-carrying code, etc. Roughly includes material in ACM Subject Classes D.4.6 and E.3.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CV <span>(Computer Vision and Pattern Recognition)</span></h4>
+          </div>
+          <div class="column"><p>Covers image processing, computer vision, pattern recognition, and scene understanding. Roughly includes material in ACM Subject Classes I.2.10, I.4, and I.5.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.CY <span>(Computers and Society)</span></h4>
+          </div>
+          <div class="column"><p>Covers impact of computers on society, computer ethics, information technology and public policy, legal aspects of computing, computers and education. Roughly includes material in ACM Subject Classes K.0, K.2, K.3, K.4, K.5, and K.7.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.DB <span>(Databases)</span></h4>
+          </div>
+          <div class="column"><p>Covers database management, datamining, and data processing. Roughly includes material in ACM Subject Classes E.2, E.5, H.0, H.2, and J.1.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.DC <span>(Distributed, Parallel, and Cluster Computing)</span></h4>
+          </div>
+          <div class="column"><p>Covers fault-tolerance, distributed algorithms, stabilility, parallel computation, and cluster computing. Roughly includes material in ACM Subject Classes C.1.2, C.1.4, C.2.4, D.1.3, D.4.5, D.4.7, E.1.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.DL <span>(Digital Libraries)</span></h4>
+          </div>
+          <div class="column"><p>Covers all aspects of the digital library design and document and text creation. Note that there will be some overlap with Information Retrieval (which is a separate subject area). Roughly includes material in ACM Subject Classes H.3.5, H.3.6, H.3.7, I.7.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.DM <span>(Discrete Mathematics)</span></h4>
+          </div>
+          <div class="column"><p>Covers combinatorics, graph theory, applications of probability. Roughly includes material in ACM Subject Classes G.2 and G.3.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.DS <span>(Data Structures and Algorithms)</span></h4>
+          </div>
+          <div class="column"><p>Covers data structures and analysis of algorithms. Roughly includes material in ACM Subject Classes E.1, E.2, F.2.1, and F.2.2.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.ET <span>(Emerging Technologies)</span></h4>
+          </div>
+          <div class="column"><p>Covers approaches to information processing (computing, communication, sensing) and bio-chemical analysis based on alternatives to silicon CMOS-based technologies, such as nanoscale electronic, photonic, spin-based, superconducting, mechanical, bio-chemical and quantum technologies (this list is not exclusive). Topics of interest include (1) building blocks for emerging technologies, their scalability and adoption in larger systems, including integration with traditional technologies, (2) modeling, design and optimization of novel devices and systems, (3) models of computation, algorithm design and programming for emerging technologies.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.FL <span>(Formal Languages and Automata Theory)</span></h4>
+          </div>
+          <div class="column"><p>Covers automata theory, formal language theory, grammars, and combinatorics on words. This roughly corresponds to ACM Subject Classes F.1.1, and F.4.3. Papers dealing with computational complexity should go to cs.CC; papers dealing with logic should go to cs.LO.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.GL <span>(General Literature)</span></h4>
+          </div>
+          <div class="column"><p>Covers introductory material, survey material, predictions of future trends, biographies, and miscellaneous computer-science related material. Roughly includes all of ACM Subject Class A, except it does not include conference proceedings (which will be listed in the appropriate subject area).</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.GR <span>(Graphics)</span></h4>
+          </div>
+          <div class="column"><p>Covers all aspects of computer graphics. Roughly includes material in all of ACM Subject Class I.3, except that I.3.5 is is likely to have Computational Geometry as the primary subject area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.GT <span>(Computer Science and Game Theory)</span></h4>
+          </div>
+          <div class="column"><p>Covers all theoretical and applied aspects at the intersection of computer science and game theory, including work in mechanism design, learning in games (which may overlap with Learning), foundations of agent modeling in games (which may overlap with Multiagent systems), coordination, specification and formal methods for non-cooperative computational environments. The area also deals with applications of game theory to areas such as electronic commerce.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.HC <span>(Human-Computer Interaction)</span></h4>
+          </div>
+          <div class="column"><p>Covers human factors, user interfaces, and collaborative computing. Roughly includes material in ACM Subject Classes H.1.2 and all of H.5, except for H.5.1, which is more likely to have Multimedia as the primary subject area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.IR <span>(Information Retrieval)</span></h4>
+          </div>
+          <div class="column"><p>Covers indexing, dictionaries, retrieval, content and analysis. Roughly includes material in ACM Subject Classes H.3.0, H.3.1, H.3.2, H.3.3, and H.3.4.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.IT <span>(Information Theory)</span></h4>
+          </div>
+          <div class="column"><p>Covers theoretical and experimental aspects of information theory and coding. Includes material in ACM Subject Class E.4 and intersects with H.1.1.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.LG <span>(Machine Learning)</span></h4>
+          </div>
+          <div class="column"><p>Papers on all aspects of machine learning research (supervised, unsupervised, reinforcement learning, bandit problems, and so on) including also robustness, explanation, fairness, and methodology. cs.LG is also an appropriate primary category for applications of machine learning methods.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.LO <span>(Logic in Computer Science)</span></h4>
+          </div>
+          <div class="column"><p>Covers all aspects of logic in computer science, including finite model theory, logics of programs, modal logic, and program verification. Programming language semantics should have Programming Languages as the primary subject area. Roughly includes material in ACM Subject Classes D.2.4, F.3.1, F.4.0, F.4.1, and F.4.2; some material in F.4.3 (formal languages) may also be appropriate here, although Computational Complexity is typically the more appropriate subject area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.MA <span>(Multiagent Systems)</span></h4>
+          </div>
+          <div class="column"><p>Covers multiagent systems, distributed artificial intelligence, intelligent agents, coordinated interactions. and practical applications. Roughly covers ACM Subject Class I.2.11.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.MM <span>(Multimedia)</span></h4>
+          </div>
+          <div class="column"><p>Roughly includes material in ACM Subject Class H.5.1.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.MS <span>(Mathematical Software)</span></h4>
+          </div>
+          <div class="column"><p>Roughly includes material in ACM Subject Class G.4.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.NA <span>(Numerical Analysis)</span></h4>
+          </div>
+          <div class="column"><p>cs.NA is an alias for math.NA. Roughly includes material in ACM Subject Class G.1.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.NE <span>(Neural and Evolutionary Computing)</span></h4>
+          </div>
+          <div class="column"><p>Covers neural networks, connectionism, genetic algorithms, artificial life, adaptive behavior. Roughly includes some material in ACM Subject Class C.1.3, I.2.6, I.5.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.NI <span>(Networking and Internet Architecture)</span></h4>
+          </div>
+          <div class="column"><p>Covers all aspects of computer communication networks, including network architecture and design, network protocols, and internetwork standards (like TCP/IP). Also includes topics, such as web caching, that are directly relevant to Internet architecture and performance. Roughly includes all of ACM Subject Class C.2 except C.2.4, which is more likely to have Distributed, Parallel, and Cluster Computing as the primary subject area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.OH <span>(Other Computer Science)</span></h4>
+          </div>
+          <div class="column"><p>This is the classification to use for documents that do not fit anywhere else.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.OS <span>(Operating Systems)</span></h4>
+          </div>
+          <div class="column"><p>Roughly includes material in ACM Subject Classes D.4.1, D.4.2., D.4.3, D.4.4, D.4.5, D.4.7, and D.4.9.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.PF <span>(Performance)</span></h4>
+          </div>
+          <div class="column"><p>Covers performance measurement and evaluation, queueing, and simulation. Roughly includes material in ACM Subject Classes D.4.8 and K.6.2.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.PL <span>(Programming Languages)</span></h4>
+          </div>
+          <div class="column"><p>Covers programming language semantics, language features, programming approaches (such as object-oriented programming, functional programming, logic programming). Also includes material on compilers oriented towards programming languages; other material on compilers may be more appropriate in Architecture (AR). Roughly includes material in ACM Subject Classes D.1 and D.3.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.RO <span>(Robotics)</span></h4>
+          </div>
+          <div class="column"><p>Roughly includes material in ACM Subject Class I.2.9.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.SC <span>(Symbolic Computation)</span></h4>
+          </div>
+          <div class="column"><p>Roughly includes material in ACM Subject Class I.1.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.SD <span>(Sound)</span></h4>
+          </div>
+          <div class="column"><p>Covers all aspects of computing with sound, and sound as an information channel. Includes models of sound, analysis and synthesis, audio user interfaces, sonification of data, computer music, and sound signal processing. Includes ACM Subject Class H.5.5, and intersects with H.1.2, H.5.1, H.5.2, I.2.7, I.5.4, I.6.3, J.5, K.4.2.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.SE <span>(Software Engineering)</span></h4>
+          </div>
+          <div class="column"><p>Covers design tools, software metrics, testing and debugging, programming environments, etc. Roughly includes material in all of ACM Subject Classes D.2, except that D.2.4 (program verification) should probably have Logics in Computer Science as the primary subject area.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.SI <span>(Social and Information Networks)</span></h4>
+          </div>
+          <div class="column"><p>Covers the design, analysis, and modeling of social and information networks, including their applications for on-line information access, communication, and interaction, and their roles as datasets in the exploration of questions in these and other domains, including connections to the social and biological sciences. Analysis and modeling of such networks includes topics in ACM Subject classes F.2, G.2, G.3, H.2, and I.2; applications in computing include topics in H.3, H.4, and H.5; and applications at the interface of computing and other disciplines include topics in J.1--J.7. Papers on computer communication systems and network protocols (e.g. TCP/IP) are generally a closer fit to the Networking and Internet Architecture (cs.NI) category.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cs.SY <span>(Systems and Control)</span></h4>
+          </div>
+          <div class="column"><p>cs.SY is an alias for eess.SY. This section includes theoretical and experimental research covering all facets of automatic control systems. The section is focused on methods of control system analysis and design using tools of modeling, simulation and optimization. Specific areas of research include nonlinear, distributed, adaptive, stochastic and robust control in addition to hybrid and discrete event systems. Application areas include automotive and aerospace control systems, network control, biological systems, multiagent and cooperative control, robotics, reinforcement learning, sensor networks, control of cyber-physical and energy-related systems, and control of computing systems.</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Economics</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>econ.EM <span>(Econometrics)</span></h4>
+          </div>
+          <div class="column"><p>Econometric Theory, Micro-Econometrics, Macro-Econometrics, Empirical Content of Economic Relations discovered via New Methods, Methodological Aspects of the Application of Statistical Inference to Economic Data.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>econ.GN <span>(General Economics)</span></h4>
+          </div>
+          <div class="column"><p>General methodological, applied, and empirical contributions to economics.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>econ.TH <span>(Theoretical Economics)</span></h4>
+          </div>
+          <div class="column"><p>Includes theoretical contributions to Contract Theory, Decision Theory, Game Theory, General Equilibrium, Growth, Learning and Evolution, Macroeconomics, Market and Mechanism Design, and Social Choice.</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Electrical Engineering and Systems Science</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>eess.AS <span>(Audio and Speech Processing)</span></h4>
+          </div>
+          <div class="column"><p>Theory and methods for processing signals representing audio, speech, and language, and their applications. This includes analysis, synthesis, enhancement, transformation, classification and interpretation of such signals as well as the design, development, and evaluation of associated signal processing systems. Machine learning and pattern analysis applied to any of the above areas is also welcome.  Specific topics of interest include: auditory modeling and hearing aids; acoustic beamforming and source localization; classification of acoustic scenes; speaker separation; active noise control and echo cancellation; enhancement; de-reverberation; bioacoustics; music signals analysis, synthesis and modification; music information retrieval;  audio for multimedia and joint audio-video processing; spoken and written language modeling, segmentation, tagging, parsing, understanding, and translation; text mining; speech production, perception, and psychoacoustics; speech analysis, synthesis, and perceptual modeling and coding; robust speech recognition; speaker recognition and characterization; deep learning, online learning, and graphical models applied to speech, audio, and language signals; and implementation aspects ranging from system architecture to fast algorithms.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>eess.IV <span>(Image and Video Processing)</span></h4>
+          </div>
+          <div class="column"><p>Theory, algorithms, and architectures for the formation, capture, processing, communication, analysis, and display of images, video, and multidimensional signals in a wide variety of applications. Topics of interest include: mathematical, statistical, and perceptual image and video modeling and representation; linear and nonlinear filtering, de-blurring, enhancement, restoration, and reconstruction from degraded, low-resolution or tomographic data; lossless and lossy compression and coding; segmentation, alignment, and recognition; image rendering, visualization, and printing; computational imaging, including ultrasound, tomographic and magnetic resonance imaging; and image and video analysis, synthesis, storage, search and retrieval.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>eess.SP <span>(Signal Processing)</span></h4>
+          </div>
+          <div class="column"><p>Theory, algorithms, performance analysis and applications of signal and data analysis, including physical modeling, processing, detection and parameter estimation, learning, mining, retrieval, and information extraction. The term &#34;signal&#34; includes speech, audio, sonar, radar, geophysical, physiological, (bio-) medical, image, video, and multimodal natural and man-made signals, including communication signals and data. Topics of interest include: statistical signal processing, spectral estimation and system identification; filter design, adaptive filtering / stochastic learning; (compressive) sampling, sensing, and transform-domain methods including fast algorithms; signal processing for machine learning and machine learning for signal processing applications; in-network and graph signal processing; convex and nonconvex optimization methods for signal processing applications; radar, sonar, and sensor array beamforming and direction finding; communications signal processing; low power, multi-core and system-on-chip signal processing; sensing, communication, analysis and optimization for cyber-physical systems such as power grids and the Internet of Things.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>eess.SY <span>(Systems and Control)</span></h4>
+          </div>
+          <div class="column"><p>This section includes theoretical and experimental research covering all facets of automatic control systems. The section is focused on methods of control system analysis and design using tools of modeling, simulation and optimization. Specific areas of research include nonlinear, distributed, adaptive, stochastic and robust control in addition to hybrid and discrete event systems. Application areas include automotive and aerospace control systems, network control, biological systems, multiagent and cooperative control, robotics, reinforcement learning, sensor networks, control of cyber-physical and energy-related systems, and control of computing systems.</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Mathematics</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.AC <span>(Commutative Algebra)</span></h4>
+          </div>
+          <div class="column"><p>Commutative rings, modules, ideals, homological algebra, computational aspects, invariant theory, connections to algebraic geometry and combinatorics</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.AG <span>(Algebraic Geometry)</span></h4>
+          </div>
+          <div class="column"><p>Algebraic varieties, stacks, sheaves, schemes, moduli spaces, complex geometry, quantum cohomology</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.AP <span>(Analysis of PDEs)</span></h4>
+          </div>
+          <div class="column"><p>Existence and uniqueness, boundary conditions, linear and non-linear operators, stability, soliton theory, integrable PDE&#39;s, conservation laws, qualitative dynamics</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.AT <span>(Algebraic Topology)</span></h4>
+          </div>
+          <div class="column"><p>Homotopy theory, homological algebra, algebraic treatments of manifolds</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.CA <span>(Classical Analysis and ODEs)</span></h4>
+          </div>
+          <div class="column"><p>Special functions, orthogonal polynomials, harmonic analysis, ODE&#39;s, differential relations, calculus of variations, approximations, expansions, asymptotics</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.CO <span>(Combinatorics)</span></h4>
+          </div>
+          <div class="column"><p>Discrete mathematics, graph theory, enumeration, combinatorial optimization, Ramsey theory, combinatorial game theory</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.CT <span>(Category Theory)</span></h4>
+          </div>
+          <div class="column"><p>Enriched categories, topoi, abelian categories, monoidal categories, homological algebra</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.CV <span>(Complex Variables)</span></h4>
+          </div>
+          <div class="column"><p>Holomorphic functions, automorphic group actions and forms, pseudoconvexity, complex geometry, analytic spaces, analytic sheaves</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.DG <span>(Differential Geometry)</span></h4>
+          </div>
+          <div class="column"><p>Complex, contact, Riemannian, pseudo-Riemannian and Finsler geometry, relativity, gauge theory, global analysis</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.DS <span>(Dynamical Systems)</span></h4>
+          </div>
+          <div class="column"><p>Dynamics of differential equations and flows, mechanics, classical few-body problems, iterations, complex dynamics, delayed differential equations</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.FA <span>(Functional Analysis)</span></h4>
+          </div>
+          <div class="column"><p>Banach spaces, function spaces, real functions, integral transforms, theory of distributions, measure theory</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.GM <span>(General Mathematics)</span></h4>
+          </div>
+          <div class="column"><p>Mathematical material of general interest, topics not covered elsewhere</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.GN <span>(General Topology)</span></h4>
+          </div>
+          <div class="column"><p>Continuum theory, point-set topology, spaces with algebraic structure, foundations, dimension theory, local and global properties</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.GR <span>(Group Theory)</span></h4>
+          </div>
+          <div class="column"><p>Finite groups, topological groups, representation theory, cohomology, classification and structure</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.GT <span>(Geometric Topology)</span></h4>
+          </div>
+          <div class="column"><p>Manifolds, orbifolds, polyhedra, cell complexes, foliations, geometric structures</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.HO <span>(History and Overview)</span></h4>
+          </div>
+          <div class="column"><p>Biographies, philosophy of mathematics, mathematics education, recreational mathematics, communication of mathematics, ethics in mathematics</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.IT <span>(Information Theory)</span></h4>
+          </div>
+          <div class="column"><p>math.IT is an alias for cs.IT. Covers theoretical and experimental aspects of information theory and coding.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.KT <span>(K-Theory and Homology)</span></h4>
+          </div>
+          <div class="column"><p>Algebraic and topological K-theory, relations with topology, commutative algebra, and operator algebras</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.LO <span>(Logic)</span></h4>
+          </div>
+          <div class="column"><p>Logic, set theory, point-set topology, formal mathematics</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.MG <span>(Metric Geometry)</span></h4>
+          </div>
+          <div class="column"><p>Euclidean, hyperbolic, discrete, convex, coarse geometry, comparisons in Riemannian geometry, symmetric spaces</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.MP <span>(Mathematical Physics)</span></h4>
+          </div>
+          <div class="column"><p>math.MP is an alias for math-ph. Articles in this category focus on areas of research that illustrate the application of mathematics to problems in physics, develop mathematical methods for such applications, or provide mathematically rigorous formulations of existing physical theories. Submissions to math-ph should be of interest to both physically oriented mathematicians and mathematically oriented physicists; submissions which are primarily of interest to theoretical physicists or to mathematicians should probably be directed to the respective physics/math categories</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.NA <span>(Numerical Analysis)</span></h4>
+          </div>
+          <div class="column"><p>Numerical algorithms for problems in analysis and algebra, scientific computation</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.NT <span>(Number Theory)</span></h4>
+          </div>
+          <div class="column"><p>Prime numbers, diophantine equations, analytic number theory, algebraic number theory, arithmetic geometry, Galois theory</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.OA <span>(Operator Algebras)</span></h4>
+          </div>
+          <div class="column"><p>Algebras of operators on Hilbert space, C^*-algebras, von Neumann algebras, non-commutative geometry</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.OC <span>(Optimization and Control)</span></h4>
+          </div>
+          <div class="column"><p>Operations research, linear programming, control theory, systems theory, optimal control, game theory</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.PR <span>(Probability)</span></h4>
+          </div>
+          <div class="column"><p>Theory and applications of probability and stochastic processes: e.g. central limit theorems, large deviations, stochastic differential equations, models from statistical mechanics, queuing theory</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.QA <span>(Quantum Algebra)</span></h4>
+          </div>
+          <div class="column"><p>Quantum groups, skein theories, operadic and diagrammatic algebra, quantum field theory</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.RA <span>(Rings and Algebras)</span></h4>
+          </div>
+          <div class="column"><p>Non-commutative rings and algebras, non-associative algebras, universal algebra and lattice theory, linear algebra, semigroups</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.RT <span>(Representation Theory)</span></h4>
+          </div>
+          <div class="column"><p>Linear representations of algebras and groups, Lie theory, associative algebras, multilinear algebra</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.SG <span>(Symplectic Geometry)</span></h4>
+          </div>
+          <div class="column"><p>Hamiltonian systems, symplectic flows, classical integrable systems</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.SP <span>(Spectral Theory)</span></h4>
+          </div>
+          <div class="column"><p>Schrodinger operators, operators on manifolds, general differential operators, numerical studies, integral operators, discrete models, resonances, non-self-adjoint operators, random operators/matrices</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math.ST <span>(Statistics Theory)</span></h4>
+          </div>
+          <div class="column"><p>Applied, computational and theoretical statistics: e.g. statistical inference, regression, time series, multivariate analysis, data analysis, Markov chain Monte Carlo, design of experiments, case studies</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Physics</h2>
+  <div class="accordion-body">
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Astrophysics<br><span>(astro-ph)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>astro-ph.CO <span>(Cosmology and Nongalactic Astrophysics)</span></h4>
+          </div>
+          <div class="column"><p>Phenomenology of early universe, cosmic microwave background, cosmological parameters, primordial element abundances, extragalactic distance scale, large-scale structure of the universe. Groups, superclusters, voids, intergalactic medium. Particle astrophysics: dark energy, dark matter, baryogenesis, leptogenesis, inflationary models, reheating, monopoles, WIMPs, cosmic strings, primordial black holes, cosmological gravitational radiation</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>astro-ph.EP <span>(Earth and Planetary Astrophysics)</span></h4>
+          </div>
+          <div class="column"><p>Interplanetary medium, planetary physics, planetary astrobiology, extrasolar planets, comets, asteroids, meteorites. Structure and formation of the solar system</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>astro-ph.GA <span>(Astrophysics of Galaxies)</span></h4>
+          </div>
+          <div class="column"><p>Phenomena pertaining to galaxies or the Milky Way. Star clusters, HII regions and planetary nebulae, the interstellar medium, atomic and molecular clouds, dust. Stellar populations. Galactic structure, formation, dynamics. Galactic nuclei, bulges, disks, halo. Active Galactic Nuclei, supermassive black holes, quasars. Gravitational lens systems. The Milky Way and its contents</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>astro-ph.HE <span>(High Energy Astrophysical Phenomena)</span></h4>
+          </div>
+          <div class="column"><p>Cosmic ray production, acceleration, propagation, detection. Gamma ray astronomy and bursts, X-rays, charged particles, supernovae and other explosive phenomena, stellar remnants and accretion systems, jets, microquasars, neutron stars, pulsars, black holes</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>astro-ph.IM <span>(Instrumentation and Methods for Astrophysics)</span></h4>
+          </div>
+          <div class="column"><p>Detector and telescope design, experiment proposals. Laboratory Astrophysics. Methods for data analysis, statistical methods. Software, database design</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>astro-ph.SR <span>(Solar and Stellar Astrophysics)</span></h4>
+          </div>
+          <div class="column"><p>White dwarfs, brown dwarfs, cataclysmic variables. Star formation and protostellar systems, stellar astrobiology, binary and multiple systems of stars, stellar evolution and structure, coronas. Central stars of planetary nebulae. Helioseismology, solar neutrinos, production and detection of gravitational radiation from stellar systems</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Condensed Matter<br><span>(cond-mat)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.dis-nn <span>(Disordered Systems and Neural Networks)</span></h4>
+          </div>
+          <div class="column"><p>Glasses and spin glasses; properties of random, aperiodic and quasiperiodic systems; transport in disordered media; localization; phenomena mediated by defects and disorder; neural networks</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.mes-hall <span>(Mesoscale and Nanoscale Physics)</span></h4>
+          </div>
+          <div class="column"><p>Semiconducting nanostructures: quantum dots, wires, and wells. Single electronics, spintronics, 2d electron gases, quantum Hall effect, nanotubes, graphene, plasmonic nanostructures</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.mtrl-sci <span>(Materials Science)</span></h4>
+          </div>
+          <div class="column"><p>Techniques, synthesis, characterization, structure.  Structural phase transitions, mechanical properties, phonons. Defects, adsorbates, interfaces</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.other <span>(Other Condensed Matter)</span></h4>
+          </div>
+          <div class="column"><p>Work in condensed matter that does not fit into the other cond-mat classifications</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.quant-gas <span>(Quantum Gases)</span></h4>
+          </div>
+          <div class="column"><p>Ultracold atomic and molecular gases, Bose-Einstein condensation, Feshbach resonances, spinor condensates, optical lattices, quantum simulation with cold atoms and molecules, macroscopic interference phenomena</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.soft <span>(Soft Condensed Matter)</span></h4>
+          </div>
+          <div class="column"><p>Membranes, polymers, liquid crystals, glasses, colloids, granular matter</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.stat-mech <span>(Statistical Mechanics)</span></h4>
+          </div>
+          <div class="column"><p>Phase transitions, thermodynamics, field theory, non-equilibrium phenomena, renormalization group and scaling, integrable models, turbulence</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.str-el <span>(Strongly Correlated Electrons)</span></h4>
+          </div>
+          <div class="column"><p>Quantum magnetism, non-Fermi liquids, spin liquids, quantum criticality, charge density waves, metal-insulator transitions</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>cond-mat.supr-con <span>(Superconductivity)</span></h4>
+          </div>
+          <div class="column"><p>Superconductivity: theory, models, experiment.  Superflow in helium</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>General Relativity and Quantum Cosmology<br><span>(gr-qc)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>gr-qc <span>(General Relativity and Quantum Cosmology)</span></h4>
+          </div>
+          <div class="column"><p>General Relativity and Quantum Cosmology Areas of gravitational physics, including experiments and observations related to the detection and interpretation of gravitational waves, experimental tests of gravitational theories, computational general relativity, relativistic astrophysics, solutions to Einstein&#39;s equations and their properties, alternative theories of gravity, classical and quantum cosmology, and quantum gravity.</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>High Energy Physics - Experiment<br><span>(hep-ex)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>hep-ex <span>(High Energy Physics - Experiment)</span></h4>
+          </div>
+          <div class="column"><p>Description coming soon</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>High Energy Physics - Lattice<br><span>(hep-lat)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>hep-lat <span>(High Energy Physics - Lattice)</span></h4>
+          </div>
+          <div class="column"><p>Lattice field theory. Phenomenology from lattice field theory. Algorithms for lattice field theory.  Hardware for lattice field theory.</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>High Energy Physics - Phenomenology<br><span>(hep-ph)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>hep-ph <span>(High Energy Physics - Phenomenology)</span></h4>
+          </div>
+          <div class="column"><p>Theoretical particle physics and its interrelation with experiment. Prediction of particle physics observables: models, effective field theories, calculation techniques. Particle physics: analysis of theory through experimental results.</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>High Energy Physics - Theory<br><span>(hep-th)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>hep-th <span>(High Energy Physics - Theory)</span></h4>
+          </div>
+          <div class="column"><p>Formal aspects of quantum field theory. String theory, supersymmetry and supergravity.</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Mathematical Physics<br><span>(math-ph)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>math-ph <span>(Mathematical Physics)</span></h4>
+          </div>
+          <div class="column"><p>Articles in this category focus on areas of research that illustrate the application of mathematics to problems in physics, develop mathematical methods for such applications, or provide mathematically rigorous formulations of existing physical theories. Submissions to math-ph should be of interest to both physically oriented mathematicians and mathematically oriented physicists; submissions which are primarily of interest to theoretical physicists or to mathematicians should probably be directed to the respective physics/math categories</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Nonlinear Sciences<br><span>(nlin)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nlin.AO <span>(Adaptation and Self-Organizing Systems)</span></h4>
+          </div>
+          <div class="column"><p>adaptation, self-organizing systems, statistical physics, fluctuating systems, stochastic processes, interacting particle systems, machine learning</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nlin.CD <span>(Chaotic Dynamics)</span></h4>
+          </div>
+          <div class="column"><p>dynamical systems, chaos, quantum chaos, topological dynamics, cycle expansions, turbulence, propagation</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nlin.CG <span>(Cellular Automata and Lattice Gases)</span></h4>
+          </div>
+          <div class="column"><p>computational methods, time series analysis, signal processing, wavelets, lattice gases</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nlin.PS <span>(Pattern Formation and Solitons)</span></h4>
+          </div>
+          <div class="column"><p>pattern formation, coherent structures, solitons</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nlin.SI <span>(Exactly Solvable and Integrable Systems)</span></h4>
+          </div>
+          <div class="column"><p>exactly solvable systems, integrable PDEs, integrable ODEs, Painleve analysis, integrable discrete maps, solvable lattice models, integrable quantum systems</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Nuclear Experiment<br><span>(nucl-ex)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nucl-ex <span>(Nuclear Experiment)</span></h4>
+          </div>
+          <div class="column"><p>Description coming soon</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Nuclear Theory<br><span>(nucl-th)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>nucl-th <span>(Nuclear Theory)</span></h4>
+          </div>
+          <div class="column"><p>Description coming soon</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Physics<br><span>(physics)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.acc-ph <span>(Accelerator Physics)</span></h4>
+          </div>
+          <div class="column"><p>Accelerator theory and simulation. Accelerator technology. Accelerator experiments. Beam Physics. Accelerator design and optimization. Advanced accelerator concepts. Radiation sources including synchrotron light sources and free electron lasers. Applications of accelerators.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.ao-ph <span>(Atmospheric and Oceanic Physics)</span></h4>
+          </div>
+          <div class="column"><p>Atmospheric and oceanic physics and physical chemistry, biogeophysics, and climate science</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.app-ph <span>(Applied Physics)</span></h4>
+          </div>
+          <div class="column"><p>Applications of physics to new technology, including electronic devices, optics, photonics, microwaves, spintronics, advanced materials, metamaterials, nanotechnology, and energy sciences.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.atm-clus <span>(Atomic and Molecular Clusters)</span></h4>
+          </div>
+          <div class="column"><p>Atomic and molecular clusters, nanoparticles: geometric, electronic, optical, chemical, magnetic properties, shell structure, phase transitions, optical spectroscopy, mass spectrometry, photoelectron spectroscopy, ionization potential, electron affinity, interaction with intense light pulses, electron diffraction, light scattering, ab initio calculations, DFT theory, fragmentation, Coulomb explosion, hydrodynamic expansion.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.atom-ph <span>(Atomic Physics)</span></h4>
+          </div>
+          <div class="column"><p>Atomic and molecular structure, spectra, collisions, and data. Atoms and molecules in external fields. Molecular dynamics and coherent and optical control. Cold atoms and molecules. Cold collisions. Optical lattices.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.bio-ph <span>(Biological Physics)</span></h4>
+          </div>
+          <div class="column"><p>Molecular biophysics, cellular biophysics, neurological biophysics, membrane biophysics, single-molecule biophysics, ecological biophysics, quantum phenomena in biological systems (quantum biophysics), theoretical biophysics, molecular dynamics/modeling and simulation, game theory, biomechanics, bioinformatics, microorganisms, virology, evolution, biophysical methods.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.chem-ph <span>(Chemical Physics)</span></h4>
+          </div>
+          <div class="column"><p>Experimental, computational, and theoretical physics of atoms, molecules, and clusters - Classical and quantum description of states, processes, and dynamics; spectroscopy, electronic structure, conformations, reactions, interactions, and phases. Chemical thermodynamics. Disperse systems. High pressure chemistry. Solid state chemistry. Surface and interface chemistry.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.class-ph <span>(Classical Physics)</span></h4>
+          </div>
+          <div class="column"><p>Newtonian and relativistic dynamics; many particle systems; planetary motions; chaos in classical dynamics. Maxwell&#39;s  equations and  dynamics of charged systems and  electromagnetic forces in materials. Vibrating systems such as membranes and cantilevers; optomechanics. Classical waves, including acoustics and elasticity; physics of music and musical instruments. Classical thermodynamics and  heat flow problems.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.comp-ph <span>(Computational Physics)</span></h4>
+          </div>
+          <div class="column"><p>All aspects of computational science applied to physics.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.data-an <span>(Data Analysis, Statistics and Probability)</span></h4>
+          </div>
+          <div class="column"><p>Methods, software and hardware for physics data analysis: data processing and storage; measurement methodology; statistical and mathematical aspects such as parametrization and uncertainties.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.ed-ph <span>(Physics Education)</span></h4>
+          </div>
+          <div class="column"><p>Report of results of a research study, laboratory experience, assessment or classroom practice that represents a way to improve teaching and learning in physics. Also, report on misconceptions of students, textbook errors, and other similar information relative to promoting physics understanding.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.flu-dyn <span>(Fluid Dynamics)</span></h4>
+          </div>
+          <div class="column"><p>Turbulence, instabilities, incompressible/compressible flows, reacting flows. Aero/hydrodynamics, fluid-structure interactions, acoustics. Biological fluid dynamics, micro/nanofluidics, interfacial phenomena. Complex fluids, suspensions and granular flows, porous media flows. Geophysical flows, thermoconvective and stratified flows. Mathematical and computational methods for fluid dynamics, fluid flow models, experimental techniques.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.gen-ph <span>(General Physics)</span></h4>
+          </div>
+          <div class="column"><p>Description coming soon</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.geo-ph <span>(Geophysics)</span></h4>
+          </div>
+          <div class="column"><p>Atmospheric physics. Biogeosciences. Computational geophysics. Geographic location. Geoinformatics. Geophysical techniques. Hydrospheric geophysics. Magnetospheric physics. Mathematical geophysics. Planetology. Solar system. Solid earth geophysics. Space plasma physics. Mineral physics. High pressure physics.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.hist-ph <span>(History and Philosophy of Physics)</span></h4>
+          </div>
+          <div class="column"><p>History and philosophy of all branches of physics, astrophysics, and cosmology, including appreciations of physicists.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.ins-det <span>(Instrumentation and Detectors)</span></h4>
+          </div>
+          <div class="column"><p>Instrumentation and Detectors for research in natural science, including optical, molecular, atomic, nuclear and particle physics instrumentation and the associated electronics, services, infrastructure and control equipment. </p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.med-ph <span>(Medical Physics)</span></h4>
+          </div>
+          <div class="column"><p>Radiation therapy. Radiation dosimetry. Biomedical imaging modelling.  Reconstruction, processing, and analysis. Biomedical system modelling and analysis. Health physics. New imaging or therapy modalities.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.optics <span>(Optics)</span></h4>
+          </div>
+          <div class="column"><p>Adaptive optics. Astronomical optics. Atmospheric optics. Biomedical optics. Cardinal points. Collimation. Doppler effect. Fiber optics. Fourier optics. Geometrical optics (Gradient index optics. Holography. Infrared optics. Integrated optics. Laser applications. Laser optical systems. Lasers. Light amplification. Light diffraction. Luminescence. Microoptics. Nano optics. Ocean optics. Optical computing. Optical devices. Optical imaging. Optical materials. Optical metrology. Optical microscopy. Optical properties. Optical signal processing. Optical testing techniques. Optical wave propagation. Paraxial optics. Photoabsorption. Photoexcitations. Physical optics. Physiological optics. Quantum optics. Segmented optics. Spectra. Statistical optics. Surface optics. Ultrafast optics. Wave optics. X-ray optics.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.plasm-ph <span>(Plasma Physics)</span></h4>
+          </div>
+          <div class="column"><p>Fundamental plasma physics. Magnetically Confined Plasmas (includes magnetic fusion energy research). High Energy Density Plasmas (inertial confinement plasmas, laser-plasma interactions). Ionospheric, Heliophysical, and Astrophysical plasmas (includes sun and solar system plasmas). Lasers, Accelerators, and Radiation Generation. Low temperature plasmas and plasma applications (include dusty plasmas, semiconductor etching, plasma-based nanotechnology, medical applications). Plasma Diagnostics, Engineering and Enabling Technologies (includes fusion reactor design, heating systems, diagnostics, experimental techniques)</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.pop-ph <span>(Popular Physics)</span></h4>
+          </div>
+          <div class="column"><p>Description coming soon</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.soc-ph <span>(Physics and Society)</span></h4>
+          </div>
+          <div class="column"><p>Structure, dynamics and collective behavior of societies and groups (human or otherwise). Quantitative analysis of social networks and other complex networks. Physics and engineering of infrastructure and systems of broad societal impact (e.g., energy grids, transportation networks).</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>physics.space-ph <span>(Space Physics)</span></h4>
+          </div>
+          <div class="column"><p>Space plasma physics. Heliophysics. Space weather. Planetary magnetospheres, ionospheres and magnetotail. Auroras. Interplanetary space. Cosmic rays. Synchrotron radiation. Radio astronomy.</p></div>
+        </div></div>
+    </div>
+    <div class="physics  columns "><div class="column is-one-fifth">
+        <h3>Quantum Physics<br><span>(quant-ph)</span></h3>
+      </div><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>quant-ph <span>(Quantum Physics)</span></h4>
+          </div>
+          <div class="column"><p>Description coming soon</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Quantitative Biology</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.BM <span>(Biomolecules)</span></h4>
+          </div>
+          <div class="column"><p>DNA, RNA, proteins, lipids, etc.; molecular structures and folding kinetics; molecular interactions; single-molecule manipulation.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.CB <span>(Cell Behavior)</span></h4>
+          </div>
+          <div class="column"><p>Cell-cell signaling and interaction; morphogenesis and development; apoptosis; bacterial conjugation; viral-host interaction; immunology</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.GN <span>(Genomics)</span></h4>
+          </div>
+          <div class="column"><p>DNA sequencing and assembly; gene and motif finding; RNA editing and alternative splicing; genomic structure and processes (replication, transcription, methylation, etc); mutational processes.</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.MN <span>(Molecular Networks)</span></h4>
+          </div>
+          <div class="column"><p>Gene regulation, signal transduction, proteomics, metabolomics, gene and enzymatic networks</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.NC <span>(Neurons and Cognition)</span></h4>
+          </div>
+          <div class="column"><p>Synapse, cortex, neuronal dynamics, neural network, sensorimotor control, behavior, attention</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.OT <span>(Other Quantitative Biology)</span></h4>
+          </div>
+          <div class="column"><p>Work in quantitative biology that does not fit into the other q-bio classifications</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.PE <span>(Populations and Evolution)</span></h4>
+          </div>
+          <div class="column"><p>Population dynamics, spatio-temporal and epidemiological models, dynamic speciation, co-evolution, biodiversity, foodwebs, aging; molecular evolution and phylogeny; directed evolution; origin of life</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.QM <span>(Quantitative Methods)</span></h4>
+          </div>
+          <div class="column"><p>All experimental, numerical, statistical and mathematical contributions of value to biology</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.SC <span>(Subcellular Processes)</span></h4>
+          </div>
+          <div class="column"><p>Assembly and control of subcellular structures (channels, organelles, cytoskeletons, capsules, etc.); molecular motors, transport, subcellular localization; mitosis and meiosis</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-bio.TO <span>(Tissues and Organs)</span></h4>
+          </div>
+          <div class="column"><p>Blood flow in vessels, biomechanics of bones, electrical waves, endocrine system, tumor growth</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Quantitative Finance</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.CP <span>(Computational Finance)</span></h4>
+          </div>
+          <div class="column"><p>Computational methods, including Monte Carlo, PDE, lattice and other numerical methods with applications to financial modeling</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.EC <span>(Economics)</span></h4>
+          </div>
+          <div class="column"><p>q-fin.EC is an alias for econ.GN. Economics, including micro and macro economics, international economics, theory of the firm, labor economics, and other economic topics outside finance</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.GN <span>(General Finance)</span></h4>
+          </div>
+          <div class="column"><p>Development of general quantitative methodologies with applications in finance</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.MF <span>(Mathematical Finance)</span></h4>
+          </div>
+          <div class="column"><p>Mathematical and analytical methods of finance, including stochastic, probabilistic and functional analysis, algebraic, geometric and other methods</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.PM <span>(Portfolio Management)</span></h4>
+          </div>
+          <div class="column"><p>Security selection and optimization, capital allocation, investment strategies and performance measurement</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.PR <span>(Pricing of Securities)</span></h4>
+          </div>
+          <div class="column"><p>Valuation and hedging of financial securities, their derivatives, and structured products</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.RM <span>(Risk Management)</span></h4>
+          </div>
+          <div class="column"><p>Measurement and management of financial risks in trading, banking, insurance, corporate and other applications</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.ST <span>(Statistical Finance)</span></h4>
+          </div>
+          <div class="column"><p>Statistical, econometric and econophysics analyses with applications to financial markets and economic data</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>q-fin.TR <span>(Trading and Market Microstructure)</span></h4>
+          </div>
+          <div class="column"><p>Market microstructure, liquidity, exchange and auction design, automated trading, agent-based modeling and market-making</p></div>
+        </div></div>
+    </div></div><h2 class="accordion-head">Statistics</h2>
+  <div class="accordion-body">
+    <div class=" columns "><div class="column">
+        
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>stat.AP <span>(Applications)</span></h4>
+          </div>
+          <div class="column"><p>Biology, Education, Epidemiology, Engineering, Environmental Sciences, Medical, Physical Sciences, Quality Control, Social Sciences</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>stat.CO <span>(Computation)</span></h4>
+          </div>
+          <div class="column"><p>Algorithms, Simulation, Visualization</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>stat.ME <span>(Methodology)</span></h4>
+          </div>
+          <div class="column"><p>Design, Surveys, Model Selection, Multiple Testing, Multivariate Methods, Signal and Image Processing, Time Series, Smoothing, Spatial Statistics, Survival Analysis, Nonparametric and Semiparametric Methods</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>stat.ML <span>(Machine Learning)</span></h4>
+          </div>
+          <div class="column"><p>Covers machine learning papers (supervised, unsupervised, semi-supervised learning, graphical models, reinforcement learning, bandits, high dimensional inference, etc.) with a statistical or theoretical grounding</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>stat.OT <span>(Other Statistics)</span></h4>
+          </div>
+          <div class="column"><p>Work in statistics that does not fit into the other stat classifications</p></div>
+        </div>
+        <div class="columns divided">
+          <div class="column is-one-fifth">
+            <h4>stat.TH <span>(Statistics Theory)</span></h4>
+          </div>
+          <div class="column"><p>stat.TH is an alias for math.ST. Asymptotics, Bayesian Inference, Decision Theory, Estimation, Foundations, Inference, Testing.</p></div>
+        </div></div>
+    </div></div></div><!-- end accordion -->
+<script type="text/javascript">
+// vanilla accordion script
+var jsaccordion = {
+  init : function (target) {
+  // initialize the accordion
+    var headers = document.querySelectorAll("#" + target + " .accordion-head");
+    if (headers.length > 0) { for (var head of headers) {
+      head.addEventListener("click", jsaccordion.select);
+    }}
+  },
+  select : function () {
+  // fired when user clicks on a header
+    var contents = this.nextElementSibling;
+    contents.classList.toggle("open");
+    var contents = this;
+    contents.classList.toggle("open");
+  }
+};
+// runs on page load. Dont forget to set variable 'list_name' on your page.
+window.addEventListener('load', function(){
+  jsaccordion.init("category_taxonomy_list");
+});
+</script>
+
+      </div>
+    </main>
+
+    <footer style="clear: both;">
+      <div class="columns is-desktop" role="navigation" aria-label="Secondary" style="margin: -0.75em -0.75em 0.75em -0.75em">
+        <!-- Macro-Column 1 -->
+        <div class="column" style="padding: 0;">
+          <div class="columns">
+            <div class="column">
+              <ul style="list-style: none; line-height: 2;">
+                <li><a href="https://arxiv.org/about">About</a></li>
+                <li><a href="https://arxiv.org/help">Help</a></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul style="list-style: none; line-height: 2;">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-black" role="presentation"><title>contact arXiv</title><desc>Click here to contact arXiv</desc><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>
+                  <a href="https://arxiv.org/help/contact"> Contact</a>
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-black" role="presentation"><title>subscribe to arXiv mailings</title><desc>Click here to subscribe</desc><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"/></svg>
+                  <a href="https://arxiv.org/help/subscribe"> Subscribe</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- End Macro-Column 1 -->
+        <!-- Macro-Column 2 -->
+        <div class="column" style="padding: 0;">
+          <div class="columns">
+            <div class="column">
+              <ul style="list-style: none; line-height: 2;">
+                <li><a href="https://arxiv.org/help/license">Copyright</a></li>
+                <li><a href="https://arxiv.org/help/policies/privacy_policy">Privacy Policy</a></li>
+              </ul>
+            </div>
+            <div class="column sorry-app-links">
+              <ul style="list-style: none; line-height: 2;">
+                <li><a href="https://arxiv.org/help/web_accessibility">Web Accessibility Assistance</a></li>
+                <li>
+                  <p class="help">
+                    <a class="a11y-main-link" href="https://status.arxiv.org" target="_blank">arXiv Operational Status <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="icon filter-dark_grey" role="presentation"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a><br>
+                    Get status notifications via
+                    <a class="is-link" href="https://subscribe.sorryapp.com/24846f03/email/new" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon filter-black" role="presentation"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>email</a>
+                    or <a class="is-link" href="https://subscribe.sorryapp.com/24846f03/slack/new" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon filter-black" role="presentation"><path d="M94.12 315.1c0 25.9-21.16 47.06-47.06 47.06S0 341 0 315.1c0-25.9 21.16-47.06 47.06-47.06h47.06v47.06zm23.72 0c0-25.9 21.16-47.06 47.06-47.06s47.06 21.16 47.06 47.06v117.84c0 25.9-21.16 47.06-47.06 47.06s-47.06-21.16-47.06-47.06V315.1zm47.06-188.98c-25.9 0-47.06-21.16-47.06-47.06S139 32 164.9 32s47.06 21.16 47.06 47.06v47.06H164.9zm0 23.72c25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06H47.06C21.16 243.96 0 222.8 0 196.9s21.16-47.06 47.06-47.06H164.9zm188.98 47.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06h-47.06V196.9zm-23.72 0c0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06V79.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06V196.9zM283.1 385.88c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06v-47.06h47.06zm0-23.72c-25.9 0-47.06-21.16-47.06-47.06 0-25.9 21.16-47.06 47.06-47.06h117.84c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06H283.1z"/></svg>slack</a>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> <!-- end MetaColumn 2 -->
+        <!-- End Macro-Column 2 -->
+      </div>
+    </footer>
+  </div>
+  
+</body>
+
+</html>
