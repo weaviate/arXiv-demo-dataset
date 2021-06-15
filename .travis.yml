@@ -1,19 +1,13 @@
-notifications:
-  email:
-    on_success: change
-os: linux
 language: python
 python:
   - "3.8"
-
-services:
-  - docker
-
+# command to install dependencies
 install:
   - pip install -r requirements.txt
-
-script: 
-  - ./loaddata.py
-
-after_script:
-  - docker-compose -f ./docker/docker-compose.yml down
+# command to run tests
+script:
+  - ./loadgalley.py
+env:
+  global:
+  - secure: X9e7xJ/MvywZx1iNe1GUCm9w91ihVkTsxOHNbhph5hmQUf1OayEkE4R41aehJ4VhirpCC/atWA0ZksEb42YAHmtbIcLfc27IeAanWZHE2ynGq/QASv1mUI4MlfqQCYhQXjh2ecKGv2zZIJypDxxwFxYMtgm7g4lOQgeuXn6YOO4c1o2FinqG6gsQXnzIpTOKDP2xClHNYKhRsX2dLgfv1xVfMmsrP7/rMVkFwmDTzhrMGRBs16Y5WhDhJTOhcEfYf5961JE7x7vd7QNZ6ZEhGf5Vvz7JieNL1mz/RpBoGJ/nWLgB4iJMb+GPcqc5N8DQwXazFELI0OPClt1sgHgaExvSTu1aMzzcS8EshrjyVMYhY82/nk+fir4O3SqOhF4QT8/FFfoTSxtAAyrKQIH/CNv1NYySQisjTeMaTHKrAyqTHDT6T0SsjprrZ97Fdhcup+G6exnC/ulVal3GwIylULuftVXdV4rKZynO3PIyiqVQAG4wNyRvHTdI4kUP+8avpZ+JvG34sIgnQUSFnAlXcKzZO4cHatcal68qJ39WF5LX3Tn96z9dwOhfK7lSNXeZZEHXMCx5R/ZWY60riV1yHcKoP98y8g+XBnIWYBP35WHi2skVlOC/rPbqGskh85i+7tYtV1wmRg/t2FQuCtlf7qMXdxCJxHKqFsecq3Htw8g=
+  - secure: cKDg2NniBN82Fes5xEHGx8GkdE0kwFfG14DIV7kr5DYtT0+52ncTj36+sB+u3ZMPPP23uSJOFzlC0G+oGiSUC5Yl7SvlAo/xYoOzZPP2BeQqPP49Xi1YOHus4Pupl4ZOKJ6ubEk85EE1wYp/JTrkfEyhJe0QSaYXi46RWOKTVuZ+161bRJ35Cw9b+RUWM7XtIvuz9+xAVQ7lUhePZ6NKCTqK54NL2CEVaOHYbov2gBAHjf761kvNUG41jKX2ZvHmQfwSQ8RT1Y03BTp8S7juU3lc28Cy9Iud0vxxjUNnw0h6unwWz7b1FazWTchafq397FhVS8+dQOc3lDAC9s+t/v9tzqh149NCnkW5y/arP+R5XHGQENV4l5MiRrUM6H7FZV/KEpH3Zu1gi6UopaxHvmaMdxBluP5/Cskj63DyTshDfHgmdDK7nPW12VVnU/TIt4t2znziYdyTrodXZBK+dArFRFGYZO910Q6i6yzrGhjVym98rWgcncA3JJKT4LCInehgIWEqLacl6C0aIl6Jo5+OpOdsaDN2MiMWIyUTHM/gdT9eCzdFJBWgA0L11nLZiYikmwA8RGw3Ra+lPMXwvuy+doHFLNYuE9pjYcYg5UfS2mdeDyAFe8MmFWyc7uaJHyz6nP8uv5Gt11fAdy1kTlxGpC5lRYQ9TBS2PPCd6kE=
