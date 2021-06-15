@@ -95,6 +95,7 @@ def get_weaviate_client(instance: dict) -> weaviate.client:
     if 'username' in instance and 'password' in instance:
         username = os.getenv(instance['username'])
         password = os.getenv(instance['password'])
+        print(username)
         if username is not None and password is not None:
             auth = weaviate.AuthClientPassword(username, password)
 
