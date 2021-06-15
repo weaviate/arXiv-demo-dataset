@@ -111,6 +111,7 @@ def get_weaviate_client(instance: dict) -> weaviate.client:
             my_wcs = WCS(auth)
             try:
                 result = my_wcs.get_cluster_config(instance['wcs'])
+                print(result)
                 weaviatepath = 'https://'+result['meta']['PublicURL']
             except:
                 config = {}
