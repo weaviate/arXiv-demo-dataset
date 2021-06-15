@@ -6,7 +6,7 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - ./loadgalley.py
+  - ./loaddata.py
 env:
   global:
   - secure: X9e7xJ/MvywZx1iNe1GUCm9w91ihVkTsxOHNbhph5hmQUf1OayEkE4R41aehJ4VhirpCC/atWA0ZksEb42YAHmtbIcLfc27IeAanWZHE2ynGq/QASv1mUI4MlfqQCYhQXjh2ecKGv2zZIJypDxxwFxYMtgm7g4lOQgeuXn6YOO4c1o2FinqG6gsQXnzIpTOKDP2xClHNYKhRsX2dLgfv1xVfMmsrP7/rMVkFwmDTzhrMGRBs16Y5WhDhJTOhcEfYf5961JE7x7vd7QNZ6ZEhGf5Vvz7JieNL1mz/RpBoGJ/nWLgB4iJMb+GPcqc5N8DQwXazFELI0OPClt1sgHgaExvSTu1aMzzcS8EshrjyVMYhY82/nk+fir4O3SqOhF4QT8/FFfoTSxtAAyrKQIH/CNv1NYySQisjTeMaTHKrAyqTHDT6T0SsjprrZ97Fdhcup+G6exnC/ulVal3GwIylULuftVXdV4rKZynO3PIyiqVQAG4wNyRvHTdI4kUP+8avpZ+JvG34sIgnQUSFnAlXcKzZO4cHatcal68qJ39WF5LX3Tn96z9dwOhfK7lSNXeZZEHXMCx5R/ZWY60riV1yHcKoP98y8g+XBnIWYBP35WHi2skVlOC/rPbqGskh85i+7tYtV1wmRg/t2FQuCtlf7qMXdxCJxHKqFsecq3Htw8g=
