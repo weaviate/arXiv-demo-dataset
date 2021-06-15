@@ -33,4 +33,4 @@ The code is tested with Python version 3.8.5.
 
 | Branch   | Status        |
 | -------- |:-------------:|
-| Master   | [![Build Status](https://travis-ci.com/semi-technologies/weaviate-python-client.svg?token=1qdvi3hJanQcWdqEstmy&branch=master)](https://travis-ci.com/semi-technologies/weaviate-python-client)
+| Master   | [![Build Status](https://travis-ci.com/semi-technologies/arXiv-demo-dataset.svg?branch=master)](https://travis-ci.com/semi-technologies/arXiv-demo-dataset)
