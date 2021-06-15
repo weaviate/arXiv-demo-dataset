@@ -11,7 +11,6 @@ services:
 
 install:
   - pip install -r requirements.txt
-  - ci/start_weaviate.sh
 
 script: 
   - ./loaddata.py
