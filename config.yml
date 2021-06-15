@@ -1,17 +1,21 @@
 weaviate:
-    url: 'http://localhost:8080'
+    #url: 'http://localhost:8080'
     schema: './schema/schema.json'
+    wcs: 'demo-arxiv'
     username: "WEAVIATE_USERNAME"
     password: "WEAVIATE_PASSWORD"
     debug: False
     verbose: True
-    max_batch_size: 1000
+    max_batch_size: 50
     overwrite_schema: true
 
 
 data:
     taxanomy: "./data/taxanomy/taxanomy.html"
-    #metadata_file: "data/metadata/arxiv-metadata-oai-snapshot.json"
+    metadata_dir: "./data/metadata/"
+
+    #metadata_file: "./data/metadata/arxiv-metadata-oai-snapshot.json"
+    #metadata_file: "https://storage.googleapis.com/semi-technologies-public-data/arxiv-metadata-small.json.zip"
     metadata_file: "./data/metadata/10.json"
     #metadata_file: "./data/metadata/100.json"
     #metadata_file: "./data/metadata/1000.json"

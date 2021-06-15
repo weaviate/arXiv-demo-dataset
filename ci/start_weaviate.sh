@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Run Docker compose"
-nohup docker-compose up &
+nohup docker-compose -f ./docker/docker-compose.yml up &
 
 echo "Wait until weaviate is up"
 
