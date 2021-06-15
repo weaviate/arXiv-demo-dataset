@@ -1,5 +1,5 @@
 weaviate:
-    #url: 'http://localhost:8080'
+    url: 'http://localhost:8080'
     schema: './schema/schema.json'
     wcs: 'demo-arxiv'
     username: "WEAVIATE_USERNAME"

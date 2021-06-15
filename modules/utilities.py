@@ -95,11 +95,9 @@ def get_weaviate_client(instance: dict) -> weaviate.client:
     if 'username' in instance and 'password' in instance:
         username = os.getenv(instance['username'])
         password = os.getenv(instance['password'])
-        print(instance['username'], username)
         if username is not None and password is not None:
             auth = weaviate.AuthClientPassword(username, password)
 
-    print(auth)
     if 'url' in instance:
         if auth is not None:
             client = weaviate.Client(instance['url'], auth_client_secret=auth)
@@ -107,12 +105,10 @@ def get_weaviate_client(instance: dict) -> weaviate.client:
             client = weaviate.Client(instance['url'])
 
     elif 'wcs' in instance:
-        print("trying wcs")
         if auth is not None:
             my_wcs = WCS(auth)
             try:
                 result = my_wcs.get_cluster_config(instance['wcs'])
-                print(result)
                 weaviatepath = 'https://'+result['meta']['PublicURL']
             except:
                 config = {}
