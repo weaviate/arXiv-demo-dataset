@@ -44,8 +44,8 @@ services:
   enterprise-proxy:
     image: semitechnologies/weaviate-enterprise-usage-collector:0.3.2
     environment:
-      - weaviate_enterprise_token=a
-      - weaviate_enterprise_project=b
+      - weaviate_enterprise_token=ba09a3f5-3be4-4a56-9b6a-95dce37a640e
+      - weaviate_enterprise_project=arXiv-demo-dataset
     links:
       - "weaviate:weaviate.com"
     ports:
