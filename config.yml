@@ -18,7 +18,7 @@ data:
     #metadata_file: "https://storage.googleapis.com/semi-technologies-public-data/arxiv-metadata-oai-snapshot.json.zip"
     #metadata_file: "./data/metadata/10.json"
     #metadata_file: "./data/metadata/100.json"
-    #metadata_file: "./data/metadata/1000.json"
+    metadata_file: "./data/metadata/1000.json"
     #metadata_file: "./data/metadata/10000.json"
     skip_n_papers: 0
     n_papers: 1000000000
