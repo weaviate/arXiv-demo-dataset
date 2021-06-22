@@ -12,7 +12,7 @@
                     "name": "title",
                     "moduleConfig": {
                         "text2vec-contextionary": {
-                          "skip": false,
+                          "skip": true,
                           "vectorizePropertyName": true
                         }
                       }
@@ -38,7 +38,7 @@
                     "name": "inJournal",
                     "moduleConfig": {
                         "text2vec-contextionary": {
-                          "skip": false,
+                          "skip": true,
                           "vectorizePropertyName": false
                         }
                       }
@@ -129,7 +129,7 @@
                     "name": "hasCategories",
                     "moduleConfig": {
                         "text2vec-contextionary": {
-                          "skip": false,
+                          "skip": true,
                           "vectorizePropertyName": false
                         }
                       }
@@ -207,7 +207,7 @@
                     "name": "hasAuthors",
                     "moduleConfig": {
                         "text2vec-contextionary": {
-                          "skip": false,
+                          "skip": true,
                           "vectorizePropertyName": false
                         }
                       }
