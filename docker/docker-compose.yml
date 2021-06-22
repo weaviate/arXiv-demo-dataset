@@ -9,7 +9,7 @@ services:
     - '4000'
     - --scheme
     - http
-    image: semitechnologies/weaviate:1.4.1
+    image: semitechnologies/weaviate:1.5.0-unofficial-experimental-prerelease
     restart: on-failure:0
     environment:
       TRANSFORMERS_INFERENCE_API: 'http://t2v-transformers:8080'
