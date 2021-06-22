@@ -13,7 +13,7 @@
                     "moduleConfig": {
                         "text2vec-contextionary": {
                           "skip": true,
-                          "vectorizePropertyName": true
+                          "vectorizePropertyName": false
                         }
                       }
                 },
