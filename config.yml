@@ -5,7 +5,7 @@ weaviate:
     password: "WEAVIATE_PASSWORD"
     debug: False
     verbose: True
-    max_batch_size: 50
+    max_batch_size: 100
     overwrite_schema: true
 
 
@@ -16,7 +16,7 @@ data:
     #metadata_file: "./data/metadata/arxiv-metadata-oai-snapshot.json"
     #metadata_file: "https://storage.googleapis.com/semi-technologies-public-data/arxiv-metadata-small.json.zip"
     #metadata_file: "https://storage.googleapis.com/semi-technologies-public-data/arxiv-metadata-oai-snapshot.json.zip"
-    metadata_file: "./data/metadata/10.json"
+    #metadata_file: "./data/metadata/10.json"
     #metadata_file: "./data/metadata/100.json"
     #metadata_file: "./data/metadata/1000.json"
     #metadata_file: "./data/metadata/10000.json"
