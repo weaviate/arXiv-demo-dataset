@@ -11,23 +11,25 @@ def _read_metadata_file(filename: str, max_size: int, skip_n_papers: int) -> lis
     """
     data = []
     ids = set()
-    i = 0
+    count = 0
 
     print("Start loading ArXiv dataset -----------:", filename)
-    with open(filename, 'r') as file:
-        for line in file:
-            if max_size > 0:
-                if len(data) >= max_size:
-                    break
-            i += 1
-            if i <= skip_n_papers:
-                continue
-            line_loaded = json.loads(line)
-            if line_loaded["id"] in ids:
-                continue
-            data.append(line_loaded)
-            ids.add(line_loaded["id"])
-    print('Done loading ArXiv dataset ------------: load {}, skip {}'.format(len(data),i-len(data)))
+    file = open(filename)
+    lines = file.readlines()
+    for line in lines:
+        if max_size > 0:
+            if len(data) >= max_size:
+                break
+        count += 1
+        if count <= skip_n_papers:
+            continue
+        line_loaded = json.loads(line)
+        if line_loaded["id"] in ids:
+            continue
+        data.append(line_loaded)
+        ids.add(line_loaded["id"])
+        print("Number of papers loaded ---------------:", count, end='\r')
+    print('\nDone loading ArXiv dataset ------------: load {}, skip {}'.format(len(data),count-len(data)))
 
     return data[:max_size]
 

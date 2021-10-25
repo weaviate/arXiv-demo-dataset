@@ -9,45 +9,35 @@ services:
     - '4000'
     - --scheme
     - http
-    image: semitechnologies/weaviate:1.5.0-unofficial-experimental-prerelease
+    image: semitechnologies/weaviate:1.7.1
     restart: on-failure:0
     environment:
-      TRANSFORMERS_INFERENCE_API: 'http://t2v-transformers:8080'
+      CONTEXTIONARY_URL: contextionary:9999
       QNA_INFERENCE_API: 'http://qna-transformers:8080'
       QUERY_DEFAULTS_LIMIT: 25
       AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
       PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
-      DEFAULT_VECTORIZER_MODULE: 'text2vec-transformers'
-      ENABLE_MODULES: 'text2vec-transformers,qna-transformers'
-  t2v-transformers:
-    image: semitechnologies/transformers-inference:sentence-transformers-paraphrase-mpnet-base-v2
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-contextionary'
+      ENABLE_MODULES: 'text2vec-contextionary,qna-transformers'
+  contextionary:
     environment:
-      ENABLE_CUDA: '1'
-      NVIDIA_VISIBLE_DEVICES: 'all'
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - capabilities: 
-            - 'gpu'
+      OCCURRENCE_WEIGHT_LINEAR_FACTOR: 0.75
+      EXTENSIONS_STORAGE_MODE: weaviate
+      EXTENSIONS_STORAGE_ORIGIN: http://weaviate:4000
+      NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE: 5
+      ENABLE_COMPOUND_SPLITTING: 'false'
+    image: semitechnologies/contextionary:en0.16.0-v1.0.2
+    ports:
+    - 9999:9999
   qna-transformers:
     image: semitechnologies/qna-transformers:distilbert-base-uncased-distilled-squad
     environment:
-      ENABLE_CUDA: '1'
-      NVIDIA_VISIBLE_DEVICES: 'all'
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - capabilities: 
-            - 'gpu'
+      ENABLE_CUDA: '0'
   enterprise-proxy:
-    image: semitechnologies/weaviate-enterprise-usage-collector:0.3.2
+    image: semitechnologies/weaviate-enterprise-usage-collector:0.3.3
     environment:
       - weaviate_enterprise_token=ba09a3f5-3be4-4a56-9b6a-95dce37a640e
-      - weaviate_enterprise_project=arXiv-demo-dataset
-    links:
-      - "weaviate:weaviate.com"
+      - weaviate_enterprise_project=demo-arxiv-articles
     ports:
       - "8080:8080"
     depends_on:
